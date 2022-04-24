@@ -1,10 +1,8 @@
 import React from 'react'
 import './App.css'
-import { useEffect } from 'react'
 import Canvas from './Canvas'
 import { useState } from 'react'
-import Game from './Game'
-import {startGame} from './game/util'
+import {startGame} from './game/api'
 
 function App() {
   const [start, setStart] = useState(false)

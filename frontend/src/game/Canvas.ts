@@ -1,3 +1,15 @@
+interface Pos {
+  lastX: number;
+  lastY: number;
+  crntX: number;
+  crntY: number;
+}
+
+interface Pencil {
+  color: string;
+  lineWidth: number;
+}
+
 export default class Canvas {
   private canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
@@ -10,12 +22,13 @@ export default class Canvas {
     this._ctx = this.canvas.getContext('2d')!;
   }
 
-  draw(lastX: number, lastY: number, crntX: number, crntY: number) {
-    if((!lastX && !lastY) || (!crntX && !crntY)) return;
+  draw({pos, pencil}: {pos: Pos; pencil: Pencil}) {
+    if((!pos.lastX && !pos.lastY) || (!pos.crntX && !pos.crntY)) return;
     this._ctx.beginPath();
-    this._ctx.moveTo(lastX, lastY);
-    this._ctx.strokeStyle = 'blue';
-    this._ctx.lineTo(crntX, crntY)
+    this._ctx.moveTo(pos.lastX, pos.lastY);
+    this._ctx.strokeStyle = pencil.color;
+    this._ctx.lineWidth = pencil.lineWidth;
+    this._ctx.lineTo(pos.crntX, pos.crntY)
     this._ctx.stroke();
     this._ctx.closePath();
   }
