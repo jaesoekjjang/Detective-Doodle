@@ -1,23 +1,19 @@
-import './style.css'
 import Canvas from './Canvas'
 import {io, Socket} from 'socket.io-client'
 import Me from './Me';
 import Player from './Me';
 import Profile from './Profile';
 import OtherPlayer from './OtherPlayer';
-import PlayerDTO from './dto/player.dto';
-import DrawDTO from './dto/draw.dto';
-import JoinDTO from './dto/join.dto';
+import PlayerDTO from '../dto/player.dto';
+import DrawDTO from '../dto/draw.dto';
+import JoinDTO from '../dto/join.dto';
 
-export default class App {
-  private app: HTMLDivElement;
+export default class Game {
   private socket: Socket;
   private me: Me;
   private players: OtherPlayer[] = [];
 
   constructor(private readonly canvas: Canvas) {
-    this.app = document.querySelector<HTMLDivElement>('#app')!;
-    this.app.appendChild(canvas.element);
     this.socket = io('localhost:8000')
     this.init()
   }
@@ -44,8 +40,6 @@ export default class App {
   }
 
   private join(data: JoinDTO){
-    console.log(data.draws)
-    console.log(data.players)
     this.me = new Player(this.canvas, this.socket, new Profile(data.me.id))
     this.loadPlayers(data.players)
     this.loadDraws(data.draws);
