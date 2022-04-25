@@ -22,15 +22,10 @@ export default class Canvas {
     this._ctx = this.canvas.getContext('2d')!;
   }
 
-  draw({pos, pencil}: {pos: Pos; pencil: Pencil}) {
-    if((!pos.lastX && !pos.lastY) || (!pos.crntX && !pos.crntY)) return;
-    this._ctx.beginPath();
-    this._ctx.moveTo(pos.lastX, pos.lastY);
-    this._ctx.strokeStyle = pencil.color;
-    this._ctx.lineWidth = pencil.lineWidth;
-    this._ctx.lineTo(pos.crntX, pos.crntY)
-    this._ctx.stroke();
-    this._ctx.closePath();
+  init() {
+    this._ctx.lineJoin = 'round';
+    this._ctx.lineJoin = 'round';
+    this._ctx.translate(0.5, 0.5);
   }
 
   clear(){
@@ -47,5 +42,11 @@ export default class Canvas {
 
   get originPos() {
     return this._originPos;
+  }
+
+  relativePos(pos: [number, number]): [number, number] {
+    const x = pos[0] - this._originPos[0];
+    const y = pos[1] - this._originPos[1];
+    return [x, y];
   }
 }

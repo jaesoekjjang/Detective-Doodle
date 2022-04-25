@@ -9,10 +9,18 @@ export const startGame = () =>{
   Game.getInstance();
 }
 
-export const clear = () =>{
+export const clear = () => {
   Game.getInstance().clear();
 }
 
-export const setColor = (color: string) =>{
-  Game.getInstance().me.setColor(color);
+export const setTool = (tool: 'pencil' | 'eraser') => {
+  Game.getInstance().me.setTool(tool);
+}
+
+export const setPencilWidth = (width: number) => {
+  Game.getInstance().me.setPencilWidth(width);
+}
+
+export const setEraserWidth = (width: number) => {
+  Game.getInstance().me.setEraserWidth(width);
 }

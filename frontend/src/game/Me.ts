@@ -1,60 +1,66 @@
 import { Socket } from 'socket.io-client';
 import Canvas from "./Canvas";
-import Player from './Player';
-import Profile from './Profile';
 import Pencil from './Pencil'
+import Eraser from './Eraser'
 
-export default class Me extends Player {
-  private isDrawing = false;
+export default class Me {
+  private canvas: Canvas;
+  private isDragging = false;
   private pencil: Pencil;
+  private eraser: Eraser;
+  private tool : Pencil | Eraser;
+  private position: [number, number] = [0,0];
 
-  constructor(canvas: Canvas,socket: Socket, profile: Profile){
-    super(canvas, socket, profile);
-    this.pencil = new Pencil();
+  constructor(canvas: Canvas){
+    this.canvas = canvas;
+    this.pencil = new Pencil(this.canvas.ctx);
+    this.eraser = new Eraser(this.canvas.ctx);
+    this.tool = this.pencil;
     this.init();
   }
 
   private init(){
-      this.canvas.element.addEventListener("mousedown", this.drawStart.bind(this))
-      this.canvas.element.addEventListener('mousemove', this.draw.bind(this))
-      this.canvas.element.addEventListener("mouseup", this.drawEnd.bind(this));
-      this.canvas.element.addEventListener("mouseout", this.drawEnd.bind(this))
+      this.canvas.element.addEventListener("mousedown", this.startUsing.bind(this))
+      this.canvas.element.addEventListener('mousemove', this.useTool.bind(this))
+      this.canvas.element.addEventListener("mouseup", this.stopUsing.bind(this));
+      this.canvas.element.addEventListener("mouseout", this.stopUsing.bind(this))
   }
 
-  private drawStart(){
-    this.isDrawing = true;
+  private startUsing(e: MouseEvent){
+    this.isDragging = true;
+    this.position = this.canvas.relativePos([e.clientX, e.clientY]);
   }
 
-  private drawEnd() {
-    this.isDrawing = false;
-    this.xPos = 0;
-    this.yPos = 0;
-    this.socket.emit('draw', {id: this.profile.id, x:0, y:0})
+  private stopUsing() {
+    this.isDragging = false;
   }
 
-  public draw(e: MouseEvent){
-    if(!this.isDrawing) return
-    const crntX = e.clientX-this.canvas.originPos[0];
-    const crntY = e.clientY-this.canvas.originPos[1];
-
-    const pos = {
-      lastX: this.xPos,
-      lastY: this.yPos,
-      crntX,
-      crntY,
+  useTool(e: MouseEvent){
+    if(!this.isDragging) return
+    const [crntX, crntY] = this.canvas.relativePos([e.clientX, e.clientY]);
+    if(this.isPencil(this.tool)){
+      this.pencil.draw(this.position[0], this.position[1], crntX, crntY);
+    }else{
+      this.eraser.erase(this.position[0], this.position[1], crntX, crntY);
     }
 
-    this.canvas.draw({pos, pencil: this.pencil});
-    this.socket.emit('draw', {id: this.profile.id, x: crntX, y:crntY, color: this.pencil.color, lineWidth: this.pencil.lineWidth});
-    this.xPos = crntX;
-    this.yPos = crntY;
+    this.position = [crntX, crntY];
   };
 
-  public setColor(color: string){
-    this.pencil.color = color;
+  isPencil(tool: Pencil | Eraser): tool is Pencil {
+    return tool instanceof Pencil
   }
 
-  public setWidth(width: number){
+  setTool(tool: 'pencil' | 'eraser'){
+    if(tool == 'pencil') this.tool = this.pencil;
+    if(tool == 'eraser') this.tool = this.eraser;
+  }
+
+  setPencilWidth(width: number){
     this.pencil.lineWidth = width;
+  }
+
+  setEraserWidth(width: number) {
+    this.eraser.width = width;
   }
 }
