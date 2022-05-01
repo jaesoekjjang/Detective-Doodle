@@ -1,18 +1,17 @@
-import React from "react";
+import React from 'react';
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-interface ErrorBoundaryState{
+interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
   info: React.ErrorInfo | null;
 }
 
-
 class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
-  state:ErrorBoundaryState = { hasError: false, error: null, info: null };
+  state: ErrorBoundaryState = { hasError: false, error: null, info: null };
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     this.setState({ hasError: true, error, info });
@@ -27,4 +26,4 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   }
 }
 
-export default ErrorBoundary
+export default ErrorBoundary;

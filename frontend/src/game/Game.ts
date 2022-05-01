@@ -1,5 +1,5 @@
-import Canvas from './Canvas'
-import {io, Socket} from 'socket.io-client'
+import Canvas from './Canvas';
+import { io, Socket } from 'socket.io-client';
 import Me from './Me';
 
 export default class Game {
@@ -10,30 +10,29 @@ export default class Game {
 
   private constructor() {
     // this.socket = io('localhost:8000')
-    this.init()
+    this.init();
   }
 
-  public static config({canvas}: {canvas: Canvas}){
+  public static config({ canvas }: { canvas: Canvas }) {
     this.canvas = canvas;
   }
 
   public static getInstance() {
-    if(!this.game){
+    if (!this.game) {
       this.game = new Game();
     }
     return this.game;
   }
 
-  private init(){
-    this.me = new Me(Game.canvas)
+  private init() {
+    this.me = new Me(Game.canvas);
   }
 
-  public clear(){
+  public clear() {
     Game.canvas.clear();
   }
 
-  public static destructoy(){
+  public static destructoy() {
     Game.game = null;
   }
 }
-

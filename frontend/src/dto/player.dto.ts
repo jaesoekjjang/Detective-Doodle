@@ -1,3 +1,3 @@
-export default class PlayerDTO{
+export default class PlayerDTO {
   id: string;
 }

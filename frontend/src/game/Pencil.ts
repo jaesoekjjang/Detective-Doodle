@@ -1,16 +1,16 @@
-export default class Pencil{
+export default class Pencil {
   private _color: string = 'black';
   private _lineWidth: number = 2;
 
-  constructor(private readonly ctx: CanvasRenderingContext2D){}
+  constructor(private readonly ctx: CanvasRenderingContext2D) {}
 
-  draw(lastX: number, lastY: number, crntX: number, crntY: number){
+  draw(lastX: number, lastY: number, crntX: number, crntY: number) {
     this.ctx.beginPath();
     this.ctx.moveTo(lastX, lastY);
     this.ctx.strokeStyle = this._color;
     this.ctx.lineWidth = this._lineWidth;
     //TODO 베지어 곡선으로 변경
-    this.ctx.lineTo(crntX, crntY)
+    this.ctx.lineTo(crntX, crntY);
     this.ctx.stroke();
     this.ctx.closePath();
   }
@@ -19,7 +19,7 @@ export default class Pencil{
     this._color = color;
   }
 
-  set lineWidth(width: number){
+  set lineWidth(width: number) {
     this._lineWidth = width;
   }
 
@@ -27,7 +27,7 @@ export default class Pencil{
     return this._color;
   }
 
-  get lineWidth(){
+  get lineWidth() {
     return this._lineWidth;
   }
 }

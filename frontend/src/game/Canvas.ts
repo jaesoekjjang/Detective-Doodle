@@ -14,10 +14,10 @@ export default class Canvas {
   private canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
 
-  private _originPos =[0, 0];
-  
-  constructor(){
-    this.canvas = document.querySelector("#canvas")!;
+  private _originPos = [0, 0];
+
+  constructor() {
+    this.canvas = document.querySelector('#canvas')!;
     this._originPos = [this.canvas.offsetLeft, this.canvas.offsetTop];
     this._ctx = this.canvas.getContext('2d')!;
   }
@@ -28,15 +28,15 @@ export default class Canvas {
     this._ctx.translate(0.5, 0.5);
   }
 
-  clear(){
-    this._ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+  clear() {
+    this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  get element(){
+  get element() {
     return this.canvas;
   }
-  
-  get ctx(){
+
+  get ctx() {
     return this._ctx;
   }
 
