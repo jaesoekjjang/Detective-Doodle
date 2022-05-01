@@ -1,10 +1,6 @@
 import Canvas from './Canvas'
 import {io, Socket} from 'socket.io-client'
 import Me from './Me';
-import Player from './Me';
-import PlayerDTO from '../dto/player.dto';
-import DrawDTO from '../dto/draw.dto';
-import JoinDTO from '../dto/join.dto';
 
 export default class Game {
   private static game: Game;

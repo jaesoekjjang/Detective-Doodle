@@ -1,8 +1,11 @@
-import React from 'react'
+import React,{Suspense, lazy} from 'react'
 import './App.css'
-import Canvas from './Canvas'
 import { useState } from 'react'
 import {startGame} from './game/api'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+const Lobby = lazy(()=>import('./components/lobby'))
+const Game = lazy(()=>import('./components/game'))
 
 function App() {
   const [start, setStart] = useState(false)
@@ -13,11 +16,15 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <button className="absolute top-0 border-2 border-black" onClick={onClick}>
-        {start ? '떠나기' : '참여하기'}
-      </button>
-      <Canvas />
+    <div className='flex justify-center items-center h-screen'>
+    <Router>
+      <Suspense fallback={<div>loading...</div>}>
+        <Routes>
+          <Route path='/' element={<Lobby/>}></Route>
+          <Route path='/game' element={<Game/>}></Route>
+        </Routes>
+      </Suspense>
+    </Router>
     </div>
   )
 }

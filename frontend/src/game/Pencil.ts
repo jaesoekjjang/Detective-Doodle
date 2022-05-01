@@ -9,7 +9,7 @@ export default class Pencil{
     this.ctx.moveTo(lastX, lastY);
     this.ctx.strokeStyle = this._color;
     this.ctx.lineWidth = this._lineWidth;
-    //TODO 베지어 곡선으로 그리기
+    //TODO 베지어 곡선으로 변경
     this.ctx.lineTo(crntX, crntY)
     this.ctx.stroke();
     this.ctx.closePath();

@@ -6,7 +6,7 @@ export default class Eraser{
     this.ctx.globalCompositeOperation = 'destination-out';
     this.ctx.beginPath();
     this.ctx.moveTo(lastX, lastY);
-    this.ctx.lineWidth = this.width;
+    this.ctx.lineWidth = this._width;
     this.ctx.lineTo(crntX, crntY)
     this.ctx.stroke();
     this.ctx.closePath();
@@ -15,5 +15,6 @@ export default class Eraser{
 
   set width(width: number){
     this._width = width;
+    console.log(this._width)
   }
 }
