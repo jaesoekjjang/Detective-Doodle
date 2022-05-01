@@ -13,9 +13,9 @@ const Game = () => {
   return (
     <div className='flex gap-8'>
       <Link className="absolute top-0" to='/' onClick={()=>endGame()}>나가기</Link>
-      <Tools />
-      <canvas id='canvas' width={WIDTH} height={HEIGHT}></canvas>
       <Palette />
+      <canvas id='canvas' width={WIDTH} height={HEIGHT}></canvas>
+      <Tools />
     </div>
   )
 }

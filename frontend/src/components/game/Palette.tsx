@@ -3,6 +3,7 @@ import { clear} from '../../game/api'
 
 const Palette = () => {
   const changeColor:React.MouseEventHandler<HTMLButtonElement> = (e) =>{
+
   }
 
   const clearCanvas = () =>{
