@@ -3,7 +3,7 @@ import {io, Socket} from 'socket.io-client'
 import Me from './Me';
 
 export default class Game {
-  private static game: Game;
+  private static game: Game | null;
   private static canvas: Canvas;
   private socket: Socket;
   public me: Me;
@@ -30,6 +30,10 @@ export default class Game {
 
   public clear(){
     Game.canvas.clear();
+  }
+
+  public static destructoy(){
+    Game.game = null;
   }
 }
 

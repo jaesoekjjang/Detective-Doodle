@@ -9,6 +9,10 @@ export const startGame = () =>{
   Game.getInstance();
 }
 
+export const endGame = () =>{
+  Game.destructoy();
+}
+
 export const clear = () => {
   Game.getInstance().clear();
 }
