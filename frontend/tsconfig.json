@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "strictPropertyInitialization": false
   },
-  "include": ["src"],
+  "include": ["src", "../jest.config.js", "test/App.test.js", "../babel.config.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
