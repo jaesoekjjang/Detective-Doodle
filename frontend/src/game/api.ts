@@ -5,6 +5,13 @@ import type { Tools } from './models/Tools';
 export const WIDTH = '540px';
 export const HEIGHT = '540px';
 
+export const colors = {
+  red: 'rgb(239 68 68)',
+  yellow: 'rgb(234 179 8)',
+  green: 'rgb(34 197 94)',
+  blue: 'rgb(59 130 246)',
+} as const;
+
 export const startGame = () => {
   Game.config(new Canvas());
   Game.instance;
@@ -14,7 +21,7 @@ export const endGame = () => {
   Game.destructoy();
 };
 
-export const clear = () => {
+export const clearCanvas = () => {
   Game.canvas.clear();
 };
 
