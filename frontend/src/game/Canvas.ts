@@ -14,7 +14,7 @@ export default class Canvas {
 
   private init() {
     this._ctx.lineJoin = 'round';
-    this._ctx.lineJoin = 'round';
+    this._ctx.lineCap = 'round';
     this._ctx.translate(0.5, 0.5);
     window.addEventListener('resize', this.setOgPoint.bind(this));
   }

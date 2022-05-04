@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { endGame } from '../../game/api';
 
 const LeftSide = () => {
   return (
@@ -10,4 +9,4 @@ const LeftSide = () => {
   );
 };
 
-export default LeftSide;
+export default memo(LeftSide);

@@ -3,7 +3,7 @@ import Point from './Point';
 export default abstract class Tool {
   protected ctx: CanvasRenderingContext2D;
   protected lastPoint: Point;
-  protected _lineWidth: number = 1;
+  protected _lineWidth: number = 8;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;

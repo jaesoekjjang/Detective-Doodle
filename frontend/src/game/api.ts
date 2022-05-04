@@ -6,10 +6,11 @@ export const WIDTH = '540px';
 export const HEIGHT = '540px';
 
 export const colors = {
-  red: 'rgb(239 68 68)',
-  yellow: 'rgb(234 179 8)',
-  green: 'rgb(34 197 94)',
-  blue: 'rgb(59 130 246)',
+  black: '#000000',
+  red: '#EF4444',
+  yellow: '#eab308',
+  green: '#22c55e',
+  blue: '#3b82f6',
 } as const;
 
 export const startGame = () => {
@@ -30,11 +31,11 @@ export const setTool = (tool: Tools) => {
 };
 
 export const setToolWidth = (width: number) => {
-  Game.instance.me.toolWidth = (4.5 * width) / 100 + 0.5;
+  Game.instance.me.toolWidth = (15 * width) / 100 + 1;
 };
 
 export const getToolWidth = () => {
-  return ((Game.instance.me.toolWidth - 0.5) * 100) / 4.5;
+  return ((Game.instance.me.toolWidth - 1) * 100) / 15;
 };
 
 export const setPencilColor = (color: string) => {

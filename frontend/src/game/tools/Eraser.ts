@@ -3,7 +3,7 @@ import Tool from '../models/Tool';
 export default class Eraser extends Tool {
   constructor(ctx: CanvasRenderingContext2D) {
     super(ctx);
-    this._lineWidth = 10;
+    this._lineWidth = 16;
   }
 
   public onMouseMove(x: number, y: number): void {
@@ -19,9 +19,9 @@ export default class Eraser extends Tool {
   }
 
   set lineWidth(width: number) {
-    this._lineWidth = width * 8;
+    this._lineWidth = width * 2;
   }
   get lineWidth(): number {
-    return this._lineWidth / 8;
+    return this._lineWidth / 2;
   }
 }

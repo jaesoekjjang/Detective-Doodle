@@ -6,9 +6,28 @@
   .lobby-button {
     @apply border-2 border-black w-auto h-10 leading-10;
   }
-
   .clicked-tool {
     @apply bg-gray-400;
+  }
+
+  .palette-black {
+    @apply bg-black;
+  }
+
+  .palette-red {
+    @apply bg-red-500;
+  }
+
+  .palette-yellow {
+    @apply bg-yellow-500;
+  }
+
+  .palette-green {
+    @apply bg-green-500;
+  }
+
+  .palette-blue {
+    @apply bg-blue-500;
   }
 
   #canvas {

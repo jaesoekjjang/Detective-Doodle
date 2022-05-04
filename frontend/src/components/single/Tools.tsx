@@ -5,9 +5,13 @@ import ToolWidth from './ToolWidth';
 import { setTool, getToolWidth } from '../../game/api';
 import type { Tools as ToolsType } from '../../game/models/Tools';
 
-const Tools = () => {
+interface ToolsProps {
+  width: number;
+  setWidth: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Tools: React.FC<ToolsProps> = ({ width, setWidth }) => {
   const [clickedTool, setClickedTool] = useState<ToolsType>('pencil');
-  const [width, setWidth] = useState<number>(50);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
