@@ -1,31 +1,26 @@
-interface Pos {
-  lastX: number;
-  lastY: number;
-  crntX: number;
-  crntY: number;
-}
-
-interface Pencil {
-  color: string;
-  lineWidth: number;
-}
+import Point from './models/Point';
 
 export default class Canvas {
   private canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
-
-  private _originPos = [0, 0];
+  private _ogPoint: Point = { x: 0, y: 0 };
 
   constructor() {
     this.canvas = document.querySelector('#canvas')!;
-    this._originPos = [this.canvas.offsetLeft, this.canvas.offsetTop];
     this._ctx = this.canvas.getContext('2d')!;
+    this.setOgPoint();
+    this.init();
   }
 
-  init() {
+  private init() {
     this._ctx.lineJoin = 'round';
     this._ctx.lineJoin = 'round';
     this._ctx.translate(0.5, 0.5);
+    window.addEventListener('resize', this.setOgPoint.bind(this));
+  }
+
+  setOgPoint() {
+    this._ogPoint = { x: this.canvas.offsetLeft, y: this.canvas.offsetTop };
   }
 
   clear() {
@@ -40,13 +35,13 @@ export default class Canvas {
     return this._ctx;
   }
 
-  get originPos() {
-    return this._originPos;
+  get ogPoint() {
+    return this._ogPoint;
   }
 
-  relativePos(pos: [number, number]): [number, number] {
-    const x = pos[0] - this._originPos[0];
-    const y = pos[1] - this._originPos[1];
-    return [x, y];
+  relativePoint(p: Point): Point {
+    const x = p.x - this._ogPoint.x;
+    const y = p.y - this._ogPoint.y;
+    return { x, y };
   }
 }

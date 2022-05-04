@@ -1,12 +1,13 @@
 import Canvas from './Canvas';
 import Game from './Game';
+import type { Tools } from './models/Tools';
 
 export const WIDTH = '540px';
 export const HEIGHT = '540px';
 
 export const startGame = () => {
-  Game.config({ canvas: new Canvas() });
-  Game.getInstance();
+  Game.config(new Canvas());
+  Game.instance;
 };
 
 export const endGame = () => {
@@ -14,17 +15,21 @@ export const endGame = () => {
 };
 
 export const clear = () => {
-  Game.getInstance().clear();
+  Game.canvas.clear();
 };
 
-export const setTool = (tool: 'pencil' | 'eraser') => {
-  Game.getInstance().me.setTool(tool);
+export const setTool = (tool: Tools) => {
+  Game.instance.me.setTool(tool);
 };
 
-export const setPencilWidth = (width: number) => {
-  Game.getInstance().me.setPencilWidth(width);
+export const setToolWidth = (width: number) => {
+  Game.instance.me.toolWidth = (4.5 * width) / 100 + 0.5;
 };
 
-export const setEraserWidth = (width: number) => {
-  Game.getInstance().me.setEraserWidth(width);
+export const getToolWidth = () => {
+  return ((Game.instance.me.toolWidth - 0.5) * 100) / 4.5;
+};
+
+export const setPencilColor = (color: string) => {
+  Game.instance.me.pencilColor = color;
 };

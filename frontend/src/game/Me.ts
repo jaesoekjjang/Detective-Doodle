@@ -1,15 +1,15 @@
-import { Socket } from 'socket.io-client';
 import Canvas from './Canvas';
-import Pencil from './Pencil';
-import Eraser from './Eraser';
+import Pencil from './tools/Pencil';
+import Eraser from './tools/Eraser';
+import type Tool from './models/Tool';
+import type { Tools } from './models/Tools';
 
 export default class Me {
   private canvas: Canvas;
   private isDragging = false;
   private pencil: Pencil;
   private eraser: Eraser;
-  private tool: Pencil | Eraser;
-  private position: [number, number] = [0, 0];
+  private tool: Tool;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
@@ -28,7 +28,8 @@ export default class Me {
 
   private startUsing(e: MouseEvent) {
     this.isDragging = true;
-    this.position = this.canvas.relativePos([e.clientX, e.clientY]);
+    const { x, y } = this.canvas.relativePoint({ x: e.clientX, y: e.clientY });
+    this.tool.onMouseDown(x, y);
   }
 
   private stopUsing() {
@@ -37,30 +38,24 @@ export default class Me {
 
   useTool(e: MouseEvent) {
     if (!this.isDragging) return;
-    const [crntX, crntY] = this.canvas.relativePos([e.clientX, e.clientY]);
-    if (this.isPencil(this.tool)) {
-      this.pencil.draw(this.position[0], this.position[1], crntX, crntY);
-    } else {
-      this.eraser.erase(this.position[0], this.position[1], crntX, crntY);
-    }
-
-    this.position = [crntX, crntY];
+    const { x, y } = this.canvas.relativePoint({ x: e.clientX, y: e.clientY });
+    this.tool.onMouseMove(x, y);
   }
 
-  isPencil(tool: Pencil | Eraser): tool is Pencil {
-    return tool instanceof Pencil;
-  }
-
-  setTool(tool: 'pencil' | 'eraser') {
+  setTool(tool: Tools) {
     if (tool == 'pencil') this.tool = this.pencil;
     if (tool == 'eraser') this.tool = this.eraser;
   }
 
-  setPencilWidth(width: number) {
-    this.pencil.lineWidth = width;
+  set toolWidth(width: number) {
+    this.tool.lineWidth = width;
   }
 
-  setEraserWidth(width: number) {
-    this.eraser.width = width;
+  get toolWidth() {
+    return this.tool.lineWidth;
+  }
+
+  set pencilColor(color: string) {
+    this.pencil.color = color;
   }
 }
