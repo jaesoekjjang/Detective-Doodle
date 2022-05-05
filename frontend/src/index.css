@@ -3,36 +3,60 @@
 @tailwind utilities;
 
 @layer components {
-  .lobby-button {
-    @apply border-2 border-black w-auto h-10 leading-10;
-  }
-  .clicked-tool {
-    @apply bg-gray-400;
-  }
-
-  .palette-black {
-    @apply bg-black;
-  }
-
-  .palette-red {
-    @apply bg-red-500;
-  }
-
-  .palette-yellow {
-    @apply bg-yellow-500;
-  }
-
-  .palette-green {
-    @apply bg-green-500;
-  }
-
-  .palette-blue {
-    @apply bg-blue-500;
-  }
-
   #canvas {
-    width: 540px;
+    width: 680px;
     height: 540px;
     border: 1px solid black;
   }
+  .palette-block {
+    @apply w-12 h-12 border-[1px] border-black rounded-md;
+  }
+}
+.lobby-button {
+  @apply border-2 border-black w-auto h-10 leading-10;
+}
+.palette-black {
+  @apply bg-black palette-block;
+}
+.palette-gray {
+  background: rgba(120, 120, 120);
+  @apply palette-block;
+}
+.palette-white {
+  @apply bg-white palette-block;
+}
+.palette-red {
+  @apply bg-red-500 palette-block;
+}
+.palette-pink {
+  background: rgba(245, 66, 170);
+  @apply palette-block;
+}
+.palette-yellow {
+  @apply bg-yellow-500 palette-block;
+}
+.palette-green {
+  @apply bg-green-500 palette-block;
+}
+.palette-blue {
+  @apply bg-blue-500 palette-block;
+}
+.palette-purple {
+  background: rgba(195, 45, 225);
+  @apply palette-block;
+}
+
+.color-input {
+  width: 102px;
+  height: 52px;
+  appearance: none;
+  cursor: pointer;
+  background: none;
+  box-sizing: content-box;
+  outline: none;
+  @apply w-40 h-20 border-[1px] border-black rounded-md appearance-none;
+}
+
+.clicked-tool {
+  @apply bg-gray-400;
 }

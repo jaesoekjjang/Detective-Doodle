@@ -1,16 +1,20 @@
-import Canvas from './Canvas';
 import Game from './Game';
+import Canvas from './Canvas';
 import type { Tools } from './models/Tools';
 
-export const WIDTH = '540px';
+export const WIDTH = '680px';
 export const HEIGHT = '540px';
 
 export const colors = {
   black: '#000000',
-  red: '#EF4444',
+  gray: '#787878d9',
+  white: '#ffffff',
+  red: '#ef4444',
+  pink: '#f542aad9',
   yellow: '#eab308',
   green: '#22c55e',
   blue: '#3b82f6',
+  purple: '#c32de1d9',
 } as const;
 
 const widthWeight = {

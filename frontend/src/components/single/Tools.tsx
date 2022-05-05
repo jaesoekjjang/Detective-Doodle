@@ -1,16 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
+import { toolType, lineWidth } from '../../recoil/canvasAtom';
 import ToolButton from './ToolButton';
 import ToolWidth from './ToolWidth';
 
 import { setTool, getToolWidth } from '../../game/api';
 import type { Tools as ToolsType } from '../../game/models/Tools';
-import { toolType, lineWidth } from '../../recoil/canvasAtom';
 
 const Tools = () => {
   const [clickedTool, setClickedTool] = useRecoilState(toolType);
-  const [width, setWidth] = useRecoilState(lineWidth);
+  const setWidth = useSetRecoilState(lineWidth);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -18,7 +18,6 @@ const Tools = () => {
       if (tool == clickedTool) return;
 
       setClickedTool(tool as ToolsType);
-      console.log(tool);
       setTool(tool as ToolsType);
       setWidth(getToolWidth());
     },

@@ -15,7 +15,7 @@ const englishToKorean = {
 const ToolButton: React.FC<ToolButtonProps> = ({ clickedTool, toolType, handleClickTool }) => {
   return (
     <button
-      className={`h-10 w-20 border-2 border-black ${toolType == clickedTool && 'clicked-tool'}`}
+      className={`h-10 w-20 border-[1px] border-black ${toolType == clickedTool && 'clicked-tool'}`}
       value={toolType}
       onClick={handleClickTool}
     >

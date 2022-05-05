@@ -4,10 +4,10 @@ export default class Pencil extends Tool {
   private _color: string = 'black';
 
   onMouseMove(x: number, y: number) {
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
     this.ctx.strokeStyle = this._color;
     this.ctx.lineWidth = this._lineWidth;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
     this.ctx.lineTo(x, y);
     this.ctx.stroke();
     this.ctx.closePath();
