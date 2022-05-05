@@ -1,15 +1,15 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+
 import { setToolWidth } from '../../game/api';
+import { lineWidth } from '../../recoil/canvasAtom';
 
-interface ToolWidthProps {
-  width: number;
-  setWidth: React.Dispatch<React.SetStateAction<number>>;
-}
+const ToolWidth = () => {
+  const [width, setWidth] = useRecoilState(lineWidth);
 
-const ToolWidth: React.FC<ToolWidthProps> = ({ width, setWidth }) => {
   const handleWidth: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const newWidth = +e.currentTarget.value;
-    setWidth(newWidth);
+    setWidth((c) => newWidth);
     setToolWidth(newWidth);
   };
 

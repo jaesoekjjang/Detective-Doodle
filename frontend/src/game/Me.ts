@@ -9,13 +9,13 @@ export default class Me {
   private isDragging = false;
   private pencil: Pencil;
   private eraser: Eraser;
-  private tool: Tool;
+  private _tool: Tool;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
     this.pencil = new Pencil(this.canvas.ctx);
     this.eraser = new Eraser(this.canvas.ctx);
-    this.tool = this.pencil;
+    this._tool = this.pencil;
     this.init();
   }
 
@@ -29,7 +29,7 @@ export default class Me {
   private startUsing(e: MouseEvent) {
     this.isDragging = true;
     const { x, y } = this.canvas.relativePoint({ x: e.clientX, y: e.clientY });
-    this.tool.onMouseDown(x, y);
+    this._tool.onMouseDown(x, y);
   }
 
   private stopUsing() {
@@ -39,20 +39,25 @@ export default class Me {
   useTool(e: MouseEvent) {
     if (!this.isDragging) return;
     const { x, y } = this.canvas.relativePoint({ x: e.clientX, y: e.clientY });
-    this.tool.onMouseMove(x, y);
+    this._tool.onMouseMove(x, y);
   }
 
-  setTool(tool: Tools) {
-    if (tool == 'pencil') this.tool = this.pencil;
-    if (tool == 'eraser') this.tool = this.eraser;
+  set tool(tool: Tools) {
+    if (tool == 'pencil') this._tool = this.pencil;
+    if (tool == 'eraser') this._tool = this.eraser;
+  }
+
+  get toolType(): 'pencil' | 'eraser' {
+    if (this._tool == this.pencil) return 'pencil';
+    else return 'eraser';
   }
 
   set toolWidth(width: number) {
-    this.tool.lineWidth = width;
+    this._tool.lineWidth = width;
   }
 
   get toolWidth() {
-    return this.tool.lineWidth;
+    return this._tool.lineWidth;
   }
 
   set pencilColor(color: string) {

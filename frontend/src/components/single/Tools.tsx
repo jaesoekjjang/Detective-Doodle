@@ -1,17 +1,16 @@
 import React, { useCallback, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+
 import ToolButton from './ToolButton';
 import ToolWidth from './ToolWidth';
 
 import { setTool, getToolWidth } from '../../game/api';
 import type { Tools as ToolsType } from '../../game/models/Tools';
+import { toolType, lineWidth } from '../../recoil/canvasAtom';
 
-interface ToolsProps {
-  width: number;
-  setWidth: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Tools: React.FC<ToolsProps> = ({ width, setWidth }) => {
-  const [clickedTool, setClickedTool] = useState<ToolsType>('pencil');
+const Tools = () => {
+  const [clickedTool, setClickedTool] = useRecoilState(toolType);
+  const [width, setWidth] = useRecoilState(lineWidth);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -19,6 +18,7 @@ const Tools: React.FC<ToolsProps> = ({ width, setWidth }) => {
       if (tool == clickedTool) return;
 
       setClickedTool(tool as ToolsType);
+      console.log(tool);
       setTool(tool as ToolsType);
       setWidth(getToolWidth());
     },
@@ -31,7 +31,7 @@ const Tools: React.FC<ToolsProps> = ({ width, setWidth }) => {
         <ToolButton toolType="pencil" clickedTool={clickedTool} handleClickTool={handleClickTool} />
         <ToolButton toolType="eraser" clickedTool={clickedTool} handleClickTool={handleClickTool} />
       </div>
-      <ToolWidth width={width} setWidth={setWidth} />
+      <ToolWidth />
     </div>
   );
 };

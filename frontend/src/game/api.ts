@@ -13,6 +13,11 @@ export const colors = {
   blue: '#3b82f6',
 } as const;
 
+const widthWeight = {
+  pencil: 14,
+  eraser: 30,
+};
+
 export const startGame = () => {
   Game.config(new Canvas());
   Game.instance;
@@ -27,15 +32,21 @@ export const clearCanvas = () => {
 };
 
 export const setTool = (tool: Tools) => {
-  Game.instance.me.setTool(tool);
+  Game.instance.me.tool = tool;
 };
 
 export const setToolWidth = (width: number) => {
-  Game.instance.me.toolWidth = (15 * width) / 100 + 1;
+  const lineWeight = getLineWeight(Game.instance.me.toolType);
+  Game.instance.me.toolWidth = (lineWeight * width) / 100 + 1;
 };
 
 export const getToolWidth = () => {
-  return ((Game.instance.me.toolWidth - 1) * 100) / 15;
+  const lineWeight = getLineWeight(Game.instance.me.toolType);
+  return ((Game.instance.me.toolWidth - 1) * 100) / lineWeight;
+};
+
+export const getLineWeight = (toolType: Tools) => {
+  return widthWeight[toolType];
 };
 
 export const setPencilColor = (color: string) => {

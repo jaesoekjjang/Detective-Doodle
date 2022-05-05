@@ -19,9 +19,9 @@ export default class Eraser extends Tool {
   }
 
   set lineWidth(width: number) {
-    this._lineWidth = width * 2;
+    this._lineWidth = width;
   }
   get lineWidth(): number {
-    return this._lineWidth / 2;
+    return this._lineWidth;
   }
 }
