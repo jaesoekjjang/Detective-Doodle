@@ -56,3 +56,11 @@ export const getLineWeight = (toolType: Tools) => {
 export const setPencilColor = (color: string) => {
   Game.instance.me.pencilColor = color;
 };
+
+export const undo = () => {
+  Game.instance.me.undo();
+};
+
+export const redo = () => {
+  Game.instance.me.redo();
+};

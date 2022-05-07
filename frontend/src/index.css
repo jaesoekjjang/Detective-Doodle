@@ -15,36 +15,6 @@
 .lobby-button {
   @apply border-2 border-black w-auto h-10 leading-10;
 }
-.palette-black {
-  @apply bg-black palette-block;
-}
-.palette-gray {
-  background: rgba(120, 120, 120);
-  @apply palette-block;
-}
-.palette-white {
-  @apply bg-white palette-block;
-}
-.palette-red {
-  @apply bg-red-500 palette-block;
-}
-.palette-pink {
-  background: rgba(245, 66, 170);
-  @apply palette-block;
-}
-.palette-yellow {
-  @apply bg-yellow-500 palette-block;
-}
-.palette-green {
-  @apply bg-green-500 palette-block;
-}
-.palette-blue {
-  @apply bg-blue-500 palette-block;
-}
-.palette-purple {
-  background: rgba(195, 45, 225);
-  @apply palette-block;
-}
 
 .color-input {
   width: 102px;

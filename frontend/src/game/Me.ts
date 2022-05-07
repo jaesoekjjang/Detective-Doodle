@@ -22,7 +22,7 @@ export default class Me {
   private init() {
     this.canvas.element.addEventListener('mousedown', this.startUsing.bind(this));
     this.canvas.element.addEventListener('mousemove', this.useTool.bind(this));
-    this.canvas.element.addEventListener('mouseup', this.stopUsing.bind(this));
+    this.canvas.element.addEventListener('mouseup', this.mouseUp.bind(this));
     this.canvas.element.addEventListener('mouseout', this.stopUsing.bind(this));
   }
 
@@ -36,10 +36,24 @@ export default class Me {
     this.isDragging = false;
   }
 
+  private mouseUp() {
+    console.log('mouseup');
+    this.canvas.storeImage();
+    this.stopUsing();
+  }
+
   useTool(e: MouseEvent) {
     if (!this.isDragging) return;
     const { x, y } = this.canvas.relativePoint({ x: e.clientX, y: e.clientY });
     this._tool.onMouseMove(x, y);
+  }
+
+  undo() {
+    this.canvas.undo();
+  }
+
+  redo() {
+    this.canvas.redo();
   }
 
   set tool(tool: Tools) {
