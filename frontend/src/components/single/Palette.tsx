@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
-import { colors, setPencilColor } from '../../game/api';
+import { setPencilColor, basicColors } from '../../game/api';
+import ColorButton from './ColorButton';
 
-type ColorName = keyof typeof colors;
+type RecentColors = [string, string, string];
 
 const Palette = () => {
-  const [color, setColor] = useState('black');
+  const [currentColor, setCurrentColor] = useState('#000000');
+  const [recentColors, setRecentColors] = useState<RecentColors>(['#000000', '#ffffff', '#ffffff']);
 
   const changeColor = (
-    e: React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>
+    e: React.MouseEvent<HTMLButtonElement> | React.FocusEvent<HTMLInputElement>
   ) => {
-    const newColor = e.currentTarget.value as ColorName;
-    setColor(newColor);
-    setPencilColor(newColor);
+    const colorHex = e.currentTarget.value;
+
+    setCurrentColor(colorHex);
+    setPencilColor(colorHex);
+    if (recentColors.includes(colorHex)) return;
+    setRecentColors((recentColors) => [colorHex, ...recentColors.slice(0, 2)] as RecentColors);
   };
 
-  const mapColorButtons = () =>
-    Object.keys(colors).map((k) => (
-      <button
-        key={k}
-        onClick={changeColor}
-        className={`palette-${k}`}
-        value={colors[k as ColorName]}
-      ></button>
+  const mapRecentColorsButtons = (recentColors: string[]) =>
+    recentColors.map((color, index) => (
+      <ColorButton key={color + index} changeColor={changeColor} color={color}></ColorButton>
     ));
 
   return (
     <div className="flex w-44 flex-col gap-4 ">
-      <div className="flex flex-wrap gap-2">
-        <button className="palette-block"></button>
-        <button className="palette-block"></button>
-        <button className="palette-block"></button>
-      </div>
+      <div className="flex flex-wrap gap-2">{mapRecentColorsButtons(recentColors)}</div>
       <hr className="w-40" style={{ height: '2px', background: 'black' }} />
-      <div className="flex flex-wrap gap-2">{mapColorButtons()}</div>
-      <input className="color-input" type="color" onChange={changeColor} value={color} />
+      <div className="flex flex-wrap gap-2">{mapRecentColorsButtons(basicColors)}</div>
+      <input
+        className="color-input"
+        type="color"
+        onChange={(e) => setCurrentColor(e.currentTarget.value)}
+        onBlur={changeColor}
+        value={currentColor}
+      />
     </div>
   );
 };

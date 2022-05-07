@@ -5,17 +5,17 @@ import type { Tools } from './models/Tools';
 export const WIDTH = '680px';
 export const HEIGHT = '540px';
 
-export const colors = {
-  black: '#000000',
-  gray: '#787878d9',
-  white: '#ffffff',
-  red: '#ef4444',
-  pink: '#f542aad9',
-  yellow: '#eab308',
-  green: '#22c55e',
-  blue: '#3b82f6',
-  purple: '#c32de1d9',
-} as const;
+export const basicColors = [
+  '#000000',
+  '#787878',
+  '#ffffff',
+  '#ef4444',
+  '#f542aa',
+  '#eab308',
+  '#22c55e',
+  '#3b82f6',
+  '#c32de1',
+];
 
 const widthWeight = {
   pencil: 14,

@@ -5,7 +5,7 @@ import Tools from './Tools';
 
 const RightSide = () => {
   return (
-    <div className="flex flex-col justify-between h-2/5">
+    <div className="flex flex-col justify-between ">
       <Tools />
       <Palette />
       <NewCanvasButton />
