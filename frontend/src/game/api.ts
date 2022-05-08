@@ -28,7 +28,7 @@ export const startGame = () => {
 };
 
 export const endGame = () => {
-  Game.destructoy();
+  Game.destroy();
 };
 
 export const clearCanvas = () => {

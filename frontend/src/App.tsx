@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from 'react';
-import './App.css';
 import ErrorBoundary from './ErrorBoundary';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import BaseLayout from './components/BaseLayout';
 
 const Lobby = lazy(() => import('./components/lobby'));
 const Single = lazy(() => import('./components/single'));
@@ -11,7 +11,7 @@ const NotFound = lazy(() => import('./components/not-found'));
 function App() {
   return (
     <RecoilRoot>
-      <div className="flex justify-center items-center h-screen">
+      <BaseLayout>
         <ErrorBoundary>
           <Router>
             <Suspense fallback={<div>loading...</div>}>
@@ -23,7 +23,7 @@ function App() {
             </Suspense>
           </Router>
         </ErrorBoundary>
-      </div>
+      </BaseLayout>
     </RecoilRoot>
   );
 }

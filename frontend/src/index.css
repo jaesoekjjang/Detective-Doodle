@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  user-select: none;
+}
+
 @layer components {
   #canvas {
     width: 680px;
@@ -13,7 +17,7 @@
   }
 }
 .lobby-button {
-  @apply border-2 border-black w-auto h-10 leading-10;
+  @apply border-2 border-black h-10 leading-10;
 }
 
 .color-input {

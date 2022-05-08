@@ -24,7 +24,7 @@ export default class Game {
     return this._instance;
   }
 
-  public static destructoy() {
+  public static destroy() {
     Game._instance = null;
   }
 }
