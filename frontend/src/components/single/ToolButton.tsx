@@ -2,8 +2,8 @@ import React from 'react';
 import { Tools } from '../../game/models/Tools';
 
 interface ToolButtonProps {
-  clickedTool: Tools;
-  toolType: Tools;
+  type: Tools;
+  tool: Tools;
   handleClickTool: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -12,14 +12,15 @@ const englishToKorean = {
   eraser: '지우개',
 };
 
-const ToolButton: React.FC<ToolButtonProps> = ({ clickedTool, toolType, handleClickTool }) => {
+const ToolButton: React.FC<ToolButtonProps> = ({ type, tool, handleClickTool }) => {
+  console.log(tool);
   return (
     <button
-      className={`h-10 w-20 border-[1px] border-black ${toolType == clickedTool && 'clicked-tool'}`}
-      value={toolType}
+      className={`h-10 w-20 border-[1px] border-black ${type == tool && 'clicked-tool'}`}
+      value={type}
       onClick={handleClickTool}
     >
-      {englishToKorean[toolType]}
+      {englishToKorean[type]}
     </button>
   );
 };

@@ -1,27 +1,23 @@
+import Point from '../models/Point';
 import Tool from '../models/Tool';
 
+interface drawData {
+  point: Point;
+  width: number;
+  color?: string;
+}
+
 export default class Eraser extends Tool {
-  constructor(ctx: CanvasRenderingContext2D) {
-    super(ctx);
-    this._lineWidth = 16;
-  }
-
-  public onMouseMove(x: number, y: number): void {
-    this.ctx.globalCompositeOperation = 'destination-out';
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    this.ctx.lineWidth = this._lineWidth;
-    this.ctx.lineTo(x, y);
-    this.ctx.stroke();
-    this.ctx.closePath();
-    this.ctx.globalCompositeOperation = 'source-over';
+  onMouseMove(ctx: CanvasRenderingContext2D, data: drawData) {
+    const { x, y } = data.point;
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    ctx.lineWidth = data.width;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.closePath();
+    ctx.globalCompositeOperation = 'source-over';
     this.lastPoint = { x, y };
-  }
-
-  set lineWidth(width: number) {
-    this._lineWidth = width;
-  }
-  get lineWidth(): number {
-    return this._lineWidth;
   }
 }

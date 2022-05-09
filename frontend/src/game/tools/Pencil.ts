@@ -1,24 +1,22 @@
+import Point from '../models/Point';
 import Tool from '../models/Tool';
 
+interface drawData {
+  point: Point;
+  width: number;
+  color?: string;
+}
+
 export default class Pencil extends Tool {
-  private _color: string = 'black';
-
-  onMouseMove(x: number, y: number) {
-    this.ctx.strokeStyle = this._color;
-    this.ctx.lineWidth = this._lineWidth;
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    this.ctx.lineTo(x, y);
-    this.ctx.stroke();
-    this.ctx.closePath();
+  onMouseMove(ctx: CanvasRenderingContext2D, data: drawData) {
+    const { x, y } = data.point;
+    ctx.strokeStyle = data.color!;
+    ctx.lineWidth = data.width;
+    ctx.beginPath();
+    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.closePath();
     this.lastPoint = { x, y };
-  }
-
-  set color(color: string) {
-    this._color = color;
-  }
-
-  get color() {
-    return this._color;
   }
 }

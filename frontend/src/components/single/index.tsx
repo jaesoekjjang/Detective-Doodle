@@ -1,44 +1,24 @@
-import React, { useEffect } from 'react';
-import { useResetRecoilState, useRecoilValue } from 'recoil';
-import { lineWidth, toolType, cursorRadius } from '../../recoil/canvasAtom';
+import React, { useState, useRef } from 'react';
+import { cursorRadius } from '../../recoil/canvasAtom';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 
-import RightSide from './RightSide';
 import LeftSide from './LeftSide';
+import RightSide from './RightSide';
 
-import { WIDTH, HEIGHT, startGame, endGame } from '../../game/api';
+import DrawingCanvas from './DrawingCanvas';
+import { Tools } from '../../game/models/Tools';
 
 const Single = () => {
-  const resetLineWidth = useResetRecoilState(lineWidth);
-  const resetTool = useResetRecoilState(toolType);
-
-  useEffect(() => {
-    startGame();
-    return () => {
-      endGame();
-      resetLineWidth();
-      resetTool();
-    };
-  }, []);
+  const isDrawing = useRef(false);
 
   const radius = useRecoilValue(cursorRadius);
 
   return (
     <div className="flex gap-2">
       <LeftSide />
-      <canvas
-        style={{
-          cursor: `
-          url("data:image/svg+xml,%3Csvg width='${radius}' height='${radius}' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E")
-            ${radius / 2} ${radius / 2}, pointer
-          `,
-        }}
-        id="canvas"
-        width={WIDTH}
-        height={HEIGHT}
-      ></canvas>
+      <DrawingCanvas isDrawing={isDrawing.current} />
       <RightSide />
     </div>
   );
 };
-
 export default Single;

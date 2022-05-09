@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { setPencilColor, basicColors } from '../../game/api';
 import ColorButton from './ColorButton';
+import { basicColors } from '../../game/utils';
 
 type RecentColors = [string, string, string];
 
@@ -14,7 +14,7 @@ const Palette = () => {
     const colorHex = e.currentTarget.value;
 
     setCurrentColor(colorHex);
-    setPencilColor(colorHex);
+    // setPencilColor(colorHex);
     if (recentColors.includes(colorHex)) return;
     setRecentColors((recentColors) => [colorHex, ...recentColors.slice(0, 2)] as RecentColors);
   };

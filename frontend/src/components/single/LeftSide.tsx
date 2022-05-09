@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const LeftSide = () => {
   return (
     <div>
-      <Link to="/">나가기</Link>
+      <Link to="/lobby">나가기</Link>
     </div>
   );
 };

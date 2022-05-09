@@ -5,6 +5,7 @@ import { RecoilRoot, useRecoilState, useSetRecoilState } from 'recoil';
 import BaseLayout from './components/BaseLayout';
 import SocketProvider from './components/SocketProvider';
 
+const Login = lazy(() => import('./components/login'));
 const Lobby = lazy(() => import('./components/lobby'));
 const Single = lazy(() => import('./components/single'));
 const NotFound = lazy(() => import('./components/not-found'));
@@ -18,7 +19,8 @@ function App() {
             <Router>
               <Suspense fallback={<div>loading...</div>}>
                 <Routes>
-                  <Route path="/" element={<Lobby />}></Route>
+                  <Route path="/" element={<Login />}></Route>
+                  <Route path="/lobby" element={<Lobby />}></Route>
                   <Route path="/single" element={<Single />}></Route>
                   <Route path="*" element={<NotFound />}></Route>
                 </Routes>
