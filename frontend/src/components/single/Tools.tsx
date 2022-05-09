@@ -8,15 +8,12 @@ import ToolWidth from './ToolWidth';
 
 const Tools = () => {
   const [tool, setTool] = useRecoilState(toolTypeAtom);
-  const setWidth = useSetRecoilState(lineWidth);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const newTool = e.currentTarget.value;
       if (newTool === tool) return;
       setTool((tool) => newTool as ToolsType);
-      // setTool(tool as ToolsType);
-      // setWidth(getToolWidth());
     },
     [tool]
   );

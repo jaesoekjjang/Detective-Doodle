@@ -2,18 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cursorRadius, eraserAtom, pencilAtom, toolTypeAtom } from '../../recoil/canvasAtom';
 
-import Canvas from '../../game/Canvas';
 import { WIDTH, HEIGHT } from '../../game/utils';
 import Pencil from '../../game/tools/Pencil';
 import Eraser from '../../game/tools/Eraser';
-import { Tools } from '../../game/models/Tools';
 import Tool from '../../game/models/Tool';
 
+import type Canvas from '../../game/Canvas';
+
 interface DrawingCanvasProps {
-  isDrawing: boolean;
+  canvas: Canvas | null;
 }
 
-const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ isDrawing }) => {
+const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ canvas }) => {
+  const isDrawing = useRef(false);
+
   const tool = useRecoilValue(toolTypeAtom);
   const pencil = new Pencil();
   const eraser = new Eraser();
@@ -32,30 +34,30 @@ const DrawingCanvas: React.FC<DrawingCanvasProps> = ({ isDrawing }) => {
       usingTool.current = eraser;
       toolData.current = eraserData;
     }
-  }, [tool]);
+  }, [tool, pencilData, eraserData]);
 
   useEffect(() => {
-    const canvas = new Canvas();
+    if (!canvas) return;
     const ctx = canvas.ctx;
 
     canvas.element.addEventListener('mousedown', (e) => {
       const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
       usingTool.current.onMouseDown({ x, y });
-      isDrawing = true;
+      isDrawing.current = true;
     });
     canvas.element.addEventListener('mousemove', (e) => {
-      if (!isDrawing) return;
+      if (!isDrawing.current) return;
       const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
       usingTool.current.onMouseMove(ctx, { ...toolData.current, point: { x, y } });
     });
     canvas.element.addEventListener('mouseup', () => {
       canvas.storeImage();
-      isDrawing = false;
+      isDrawing.current = false;
     });
     canvas.element.addEventListener('mouseout', () => {
-      isDrawing = false;
+      isDrawing.current = false;
     });
-  }, []);
+  }, [canvas]);
 
   const radius = useRecoilValue(cursorRadius);
 

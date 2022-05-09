@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tools } from '../../game/models/Tools';
+import type { Tools } from '../../game/models/Tools';
 
 interface ToolButtonProps {
   type: Tools;
@@ -13,7 +13,6 @@ const englishToKorean = {
 };
 
 const ToolButton: React.FC<ToolButtonProps> = ({ type, tool, handleClickTool }) => {
-  console.log(tool);
   return (
     <button
       className={`h-10 w-20 border-[1px] border-black ${type == tool && 'clicked-tool'}`}

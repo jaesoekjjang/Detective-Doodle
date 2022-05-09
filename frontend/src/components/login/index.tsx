@@ -21,8 +21,8 @@ const index = () => {
   }, []);
 
   return (
-    <div className="flex flex-col ">
-      <div>
+    <div className="relative flex flex-col items-center gap-4 w-1/2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+      <div className="flex justify-center items-center">
         <input
           type="text"
           onChange={(e) => setNameInputValue(e.currentTarget.value)}

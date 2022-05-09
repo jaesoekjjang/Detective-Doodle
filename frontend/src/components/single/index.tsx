@@ -1,23 +1,35 @@
-import React, { useState, useRef } from 'react';
-import { cursorRadius } from '../../recoil/canvasAtom';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import React, { useState, useEffect, useRef } from 'react';
+
+import { useResetRecoilState } from 'recoil';
+import { eraserAtom, pencilAtom } from '../../recoil/canvasAtom';
 
 import LeftSide from './LeftSide';
 import RightSide from './RightSide';
-
 import DrawingCanvas from './DrawingCanvas';
-import { Tools } from '../../game/models/Tools';
+
+import Canvas from '../../game/Canvas';
 
 const Single = () => {
-  const isDrawing = useRef(false);
+  const [canvas, setCanvas] = useState<Canvas | null>(null);
+  const resetPencil = useResetRecoilState(pencilAtom);
+  const resetEraser = useResetRecoilState(eraserAtom);
 
-  const radius = useRecoilValue(cursorRadius);
+  useEffect(() => {
+    const canvas = new Canvas();
+    setCanvas(canvas);
+
+    return () => {
+      resetPencil();
+      resetEraser();
+      setCanvas(null);
+    };
+  }, []);
 
   return (
     <div className="flex gap-2">
       <LeftSide />
-      <DrawingCanvas isDrawing={isDrawing.current} />
-      <RightSide />
+      <DrawingCanvas canvas={canvas} />
+      <RightSide canvas={canvas} />
     </div>
   );
 };

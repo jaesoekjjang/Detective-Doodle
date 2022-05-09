@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
+import { colorAtom } from '../../recoil/canvasAtom';
+import { useRecoilState } from 'recoil';
+
 import ColorButton from './ColorButton';
+
 import { basicColors } from '../../game/utils';
+import type Canvas from '../../game/Canvas';
+
+interface RightSideProps {
+  canvas: Canvas | null;
+}
 
 type RecentColors = [string, string, string];
 
-const Palette = () => {
-  const [currentColor, setCurrentColor] = useState('#000000');
+const Palette: React.FC<RightSideProps> = () => {
+  const [color, setColor] = useRecoilState(colorAtom);
+
   const [recentColors, setRecentColors] = useState<RecentColors>(['#000000', '#ffffff', '#ffffff']);
+  const [inputColor, setInputColor] = useState(color);
 
   const changeColor = (
     e: React.MouseEvent<HTMLButtonElement> | React.FocusEvent<HTMLInputElement>
   ) => {
     const colorHex = e.currentTarget.value;
+    setColor(colorHex);
+    setInputColor(colorHex);
 
-    setCurrentColor(colorHex);
-    // setPencilColor(colorHex);
     if (recentColors.includes(colorHex)) return;
     setRecentColors((recentColors) => [colorHex, ...recentColors.slice(0, 2)] as RecentColors);
   };
@@ -32,9 +43,9 @@ const Palette = () => {
       <input
         className="color-input"
         type="color"
-        onChange={(e) => setCurrentColor(e.currentTarget.value)}
+        onChange={(e) => setInputColor(e.currentTarget.value)}
         onBlur={changeColor}
-        value={currentColor}
+        value={inputColor}
       />
     </div>
   );

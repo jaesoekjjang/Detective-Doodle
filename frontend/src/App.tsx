@@ -1,7 +1,8 @@
 import React, { Suspense, lazy } from 'react';
-import ErrorBoundary from './ErrorBoundary';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { RecoilRoot, useRecoilState, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
+
+import ErrorBoundary from './ErrorBoundary';
 import BaseLayout from './components/BaseLayout';
 import SocketProvider from './components/SocketProvider';
 
