@@ -1,30 +1,22 @@
 import Canvas from './Canvas';
 import { io, Socket } from 'socket.io-client';
 import Me from './Me';
+import System from './System';
+
+type Mode = 'single' | 'multi';
 
 export default class Game {
-  private static _instance: Game | null;
-  public static canvas: Canvas;
-  // private socket: Socket;
-  public me: Me;
+  private system: System;
+  private mode: Mode;
+  private canvas: Canvas;
+  private me: Me;
 
-  private constructor() {
-    // this.socket = io('localhost:8000')
-    this.me = new Me(Game.canvas);
-  }
-
-  public static config(canvas: Canvas) {
+  constructor(mode: Mode, system: System, canvas: Canvas) {
+    this.mode = mode;
+    this.system = system;
     this.canvas = canvas;
+    this.me = new Me(canvas);
   }
 
-  public static get instance() {
-    if (!this._instance) {
-      this._instance = new Game();
-    }
-    return this._instance;
-  }
-
-  public static destroy() {
-    Game._instance = null;
-  }
+  startGame() {}
 }

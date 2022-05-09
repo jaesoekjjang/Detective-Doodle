@@ -37,7 +37,6 @@ export default class Me {
   }
 
   private mouseUp() {
-    console.log('mouseup');
     this.canvas.storeImage();
     this.stopUsing();
   }

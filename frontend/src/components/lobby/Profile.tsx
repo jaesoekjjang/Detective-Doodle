@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { playerName } from '../../recoil/playerAtom';
+import { myName } from '../../recoil/myInfoAtom';
 
 const Profile = () => {
   const [nameInputValue, setNameInputValue] = useState('');
-  const [name, setName] = useRecoilState(playerName);
+  const [name, setName] = useRecoilState(myName);
 
   return (
     <div className="basis-2/5 border-b-2 border-black">
