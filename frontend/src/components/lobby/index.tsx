@@ -13,10 +13,10 @@ const Lobby = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on('new_player', (player) => {
+      socket?.on('new_player', (player) => {
         setUserList((userList: { id: String; name: string }[]) => [...userList, player]);
       });
-      socket.on('leave', (player) => {
+      socket?.on('leave', (player) => {
         setUserList((userList) => [...userList].filter((user) => user.id !== player));
       });
     }

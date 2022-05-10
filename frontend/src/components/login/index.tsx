@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useSocket } from '../hooks/useSocket';
 import { myName } from '../../recoil/myInfoAtom';
 import { userList as users } from '../../recoil/userAtom';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const index = () => {
   const socket = useSocket();
 
-  const [userList, setUserList] = useRecoilState(users);
+  const setUserList = useSetRecoilState(users);
 
-  const [name, setName] = useRecoilState(myName);
+  const name = useRecoilValue(myName);
   const [nameInputValue, setNameInputValue] = useState(name);
+
+  const [, setToken] = useLocalStorage('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket?.emit('join', name);
-    socket?.on('existing_players', (players: { id: string; name: string }[]) => {
+    socket?.on('load_players', (players: { id: string; name: string }[]) => {
       setUserList(players);
     });
-  }, []);
+  }, [socket]);
+
+  const handleClickButton = () => {
+    setToken(name);
+    navigate('/lobby', { replace: true });
+  };
 
   return (
     <div className="relative flex flex-col items-center gap-4 w-1/2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
@@ -31,11 +40,10 @@ const index = () => {
           value={nameInputValue}
           className="lobby-button w-3/4 outline-none"
         />
-        <button className="lobby-button" onClick={() => setName(nameInputValue)}>
-          저장
-        </button>
       </div>
-      <Link to="/lobby">로비로 이동</Link>
+      <button type="button" onClick={handleClickButton}>
+        로그인
+      </button>
     </div>
   );
 };

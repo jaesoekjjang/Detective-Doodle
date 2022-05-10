@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 import ErrorBoundary from './ErrorBoundary';
 import BaseLayout from './components/BaseLayout';
 import SocketProvider from './components/SocketProvider';
+import AuthRoute from './components/AuthRoute';
 
 const Login = lazy(() => import('./components/login'));
 const Lobby = lazy(() => import('./components/lobby'));
@@ -20,9 +21,31 @@ function App() {
             <Router>
               <Suspense fallback={<div>loading...</div>}>
                 <Routes>
-                  <Route path="/" element={<Login />}></Route>
-                  <Route path="/lobby" element={<Lobby />}></Route>
-                  <Route path="/single" element={<Single />}></Route>
+                  <Route path="/login" element={<Login />}></Route>
+                  <Route
+                    path="/"
+                    element={
+                      <AuthRoute>
+                        <Lobby />
+                      </AuthRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="/lobby"
+                    element={
+                      <AuthRoute>
+                        <Lobby />
+                      </AuthRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="/single"
+                    element={
+                      <AuthRoute>
+                        <Single />
+                      </AuthRoute>
+                    }
+                  ></Route>
                   <Route path="*" element={<NotFound />}></Route>
                 </Routes>
               </Suspense>
