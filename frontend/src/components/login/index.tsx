@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { useSocket } from '../hooks/useSocket';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { myName } from '../../recoil/myInfoAtom';
-import { userList as users } from '../../recoil/userAtom';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 const index = () => {
-  const socket = useSocket();
-
-  const setUserList = useSetRecoilState(users);
-
   const name = useRecoilValue(myName);
   const [nameInputValue, setNameInputValue] = useState(name);
 
   const [, setToken] = useLocalStorage('token');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    socket?.emit('join', name);
-    socket?.on('load_players', (players: { id: string; name: string }[]) => {
-      setUserList(players);
-    });
-  }, [socket]);
 
   const handleClickButton = () => {
     setToken(name);

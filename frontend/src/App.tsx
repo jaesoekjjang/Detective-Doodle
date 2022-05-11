@@ -9,13 +9,14 @@ import AuthRoute from './components/AuthRoute';
 
 const Login = lazy(() => import('./components/login'));
 const Lobby = lazy(() => import('./components/lobby'));
+const Room = lazy(() => import('./components/room'));
 const Single = lazy(() => import('./components/single'));
 const NotFound = lazy(() => import('./components/not-found'));
 
 function App() {
   return (
-    <SocketProvider>
-      <RecoilRoot>
+    <RecoilRoot>
+      <SocketProvider>
         <BaseLayout>
           <ErrorBoundary>
             <Router>
@@ -39,6 +40,14 @@ function App() {
                     }
                   ></Route>
                   <Route
+                    path="/room/:id"
+                    element={
+                      <AuthRoute>
+                        <Room />
+                      </AuthRoute>
+                    }
+                  ></Route>
+                  <Route
                     path="/single"
                     element={
                       <AuthRoute>
@@ -52,8 +61,8 @@ function App() {
             </Router>
           </ErrorBoundary>
         </BaseLayout>
-      </RecoilRoot>
-    </SocketProvider>
+      </SocketProvider>
+    </RecoilRoot>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CreateRoomButton from './CreateRoomButton';
 import RoomList from './RoomList';
 
 const Right = () => {
@@ -8,7 +9,7 @@ const Right = () => {
       <div className="flex justify-between border-2 border-black">
         <div className="flex gap-4">
           <div>빠른 입장</div>
-          <div>방 만들기</div>
+          <CreateRoomButton />
         </div>
         <div>
           <Link to="/single">혼자 놀기</Link>

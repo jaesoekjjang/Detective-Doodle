@@ -1,8 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { io, Socket } from 'socket.io-client';
-import Game from '../../game/Game';
 import { userList } from '../../recoil/userAtom';
 import Profile from './Profile';
 
