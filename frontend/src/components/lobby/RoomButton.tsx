@@ -10,11 +10,9 @@ interface RoomButtonProps {
 
 const RoomButton: React.FC<RoomButtonProps> = ({ roomName }) => {
   const socket = useSocket();
-  const userName = useRecoilValue(myName);
   const navigate = useNavigate();
 
   const handleClick = () => {
-    socket?.emit('join_room', { roomName, userName });
     navigate(`/room/${roomName}`);
   };
 

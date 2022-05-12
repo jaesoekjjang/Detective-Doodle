@@ -10,7 +10,7 @@ import AuthRoute from './components/AuthRoute';
 const Login = lazy(() => import('./components/login'));
 const Lobby = lazy(() => import('./components/lobby'));
 const Room = lazy(() => import('./components/room'));
-const Single = lazy(() => import('./components/single'));
+const Game = lazy(() => import('./components/game'));
 const NotFound = lazy(() => import('./components/not-found'));
 
 function App() {
@@ -51,7 +51,7 @@ function App() {
                     path="/single"
                     element={
                       <AuthRoute>
-                        <Single />
+                        <Game />
                       </AuthRoute>
                     }
                   ></Route>

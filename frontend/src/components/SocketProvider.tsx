@@ -23,8 +23,9 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   useEffect(() => {
     const newSocket = io('localhost:8000');
     setSocket(newSocket);
-    newSocket.emit('join', name);
+    newSocket.emit('join_lobby', name);
     newSocket.on('load_players', (players: { id: string; name: string }[]) => {
+      console.log(players);
       setUserList(players);
     });
     newSocket.on('new_player', (player) => {

@@ -7,13 +7,13 @@ import NewCanvasButton from './NewCanvasButton';
 
 import type Canvas from '../../game/Canvas';
 
-interface RightSideProps {
+interface SideProps {
   canvas: Canvas | null;
 }
 
-const RightSide: React.FC<RightSideProps> = ({ canvas }) => {
+const Side: React.FC<SideProps> = ({ canvas }) => {
   return (
-    <div className="flex flex-col justify-between ">
+    <div className=" flex flex-col justify-between ">
       <Tools />
       <Palette canvas={canvas} />
       <RedoAndUndo canvas={canvas} />
@@ -22,4 +22,4 @@ const RightSide: React.FC<RightSideProps> = ({ canvas }) => {
   );
 };
 
-export default React.memo(RightSide);
+export default React.memo(Side);

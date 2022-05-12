@@ -5,7 +5,7 @@ import { useSocket } from '../hooks/useSocket';
 
 const Lobby = () => {
   return (
-    <div className="flex h-full">
+    <div className="flex w-[68rem] h-[38rem]">
       <Left />
       <Right />
     </div>

@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useResetRecoilState } from 'recoil';
 import { eraserAtom, pencilAtom } from '../../recoil/canvasAtom';
 
-import LeftSide from './LeftSide';
-import RightSide from './RightSide';
+import Side from './Side';
 import DrawingCanvas from './DrawingCanvas';
 
 import Canvas from '../../game/Canvas';
 
-const Single = () => {
+type Mode = 'single' | 'multi';
+
+const Game = () => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);
   const resetPencil = useResetRecoilState(pencilAtom);
   const resetEraser = useResetRecoilState(eraserAtom);
@@ -25,12 +26,15 @@ const Single = () => {
     };
   }, []);
 
+  const isMulti = (mode: Mode): mode is 'single' => {
+    return mode === 'multi';
+  };
+
   return (
     <div className="flex gap-2">
-      <LeftSide />
+      <Side canvas={canvas} />
       <DrawingCanvas canvas={canvas} />
-      <RightSide canvas={canvas} />
     </div>
   );
 };
-export default Single;
+export default Game;
