@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { myName } from '../../recoil/myInfoAtom';
 import { useSocket } from '../hooks/useSocket';
 
 interface RoomButtonProps {

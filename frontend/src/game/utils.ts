@@ -15,11 +15,20 @@ export const basicColors = [
   '#c32de1',
 ];
 
-export const widthWeight = {
+const maxWidth = {
   pencil: 14,
   eraser: 30,
 };
 
-export const getLineWeight = (toolType: Tools) => {
-  return widthWeight[toolType];
+const cursorWeight = {
+  pencil: 4,
+  eraser: 2,
+};
+
+export const getMaxWidth = (toolType: Tools) => {
+  return maxWidth[toolType];
+};
+
+export const getCursorWeight = (toolType: Tools) => {
+  return cursorWeight[toolType];
 };

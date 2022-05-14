@@ -1,19 +1,21 @@
 import React, { useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { Tools as ToolsType } from '../../game/models/Tools';
+import { useRecoilState } from 'recoil';
+import { toolTypeAtom } from '../../recoil/canvasAtom';
 
-import { toolTypeAtom, lineWidth } from '../../recoil/canvasAtom';
 import ToolButton from './ToolButton';
 import ToolWidth from './ToolWidth';
 
+import { Tools as ToolsType } from '../../game/models/Tools';
+
 const Tools = () => {
+  // TODO 드래그할 때 뿐만 아니라 1번 클릭 했을 때도 기능하도록.
   const [tool, setTool] = useRecoilState(toolTypeAtom);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const newTool = e.currentTarget.value;
       if (newTool === tool) return;
-      setTool((tool) => newTool as ToolsType);
+      setTool(newTool as ToolsType);
     },
     [tool]
   );

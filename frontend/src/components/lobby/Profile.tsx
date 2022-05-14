@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { myName } from '../../recoil/myInfoAtom';
+import { meAtom } from '../../recoil/playerAtom';
 
 const Profile = () => {
-  const name = useRecoilValue(myName);
+  const me = useRecoilValue(meAtom);
 
-  return <div className="basis-2/5 border-b-2 border-black">{name}</div>;
+  return <div className="basis-2/5 border-b-2 border-black">{me.name}</div>;
 };
 
 export default Profile;

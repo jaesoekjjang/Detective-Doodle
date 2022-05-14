@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
 
+import { getCursorWeight, getMaxWidth } from './../game/utils';
 import { Tools } from '../game/models/Tools';
-import { getLineWeight } from '../game/utils';
 
 export const toolTypeAtom = atom<Tools>({
   key: 'toolType',
@@ -33,13 +33,13 @@ export const lineWidth = selector<number>({
   key: 'lineWidth',
   get: ({ get }) => {
     const tool = get(toolTypeAtom);
-    const weight = getLineWeight(tool);
+    const weight = getMaxWidth(tool);
     if (tool === 'pencil') return ((get(pencilAtom).width - 1) * 100) / weight;
     else return ((get(eraserAtom).width - 1) * 100) / weight;
   },
   set: ({ get, set }, newValue) => {
     const tool = get(toolTypeAtom);
-    const weight = getLineWeight(tool);
+    const weight = getMaxWidth(tool);
     const width = (+newValue * weight) / 100 + 1;
     if (tool === 'pencil') set(pencilAtom, { ...get(pencilAtom), width });
     else set(eraserAtom, { ...get(pencilAtom), width });
@@ -48,5 +48,5 @@ export const lineWidth = selector<number>({
 
 export const cursorRadius = selector({
   key: 'cursorRadius',
-  get: ({ get }) => Math.max((get(lineWidth) * getLineWeight(get(toolTypeAtom)) * 4) / 100 / 2, 8),
+  get: ({ get }) => Math.max(get(lineWidth), 16) / getCursorWeight(get(toolTypeAtom)),
 });

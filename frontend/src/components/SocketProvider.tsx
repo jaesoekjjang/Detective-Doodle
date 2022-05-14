@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { io, Socket } from 'socket.io-client';
-import { myName } from '../recoil/myInfoAtom';
+import { tokenAtom } from '../recoil/authAtom';
 import { roomListAtom } from '../recoil/roomAtom';
-import { userList } from '../recoil/userAtom';
-import useLocalStorage from './hooks/useLocalStorage';
+import { meAtom, playerListAtom } from '../recoil/playerAtom';
+import { Player } from '../types/player.interface';
 
 export const SocketContext = createContext<Socket | null>(null);
 
@@ -14,29 +14,35 @@ interface SocketProviderProps {
 
 const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [token] = useLocalStorage('token');
+  const token = useRecoilValue(tokenAtom);
 
-  const name = useRecoilValue(myName);
-  const setUserList = useSetRecoilState(userList);
+  const [me, setMe] = useRecoilState(meAtom);
+  const setPlayerList = useSetRecoilState(playerListAtom);
   const setRoomList = useSetRecoilState(roomListAtom);
 
   useEffect(() => {
+    if (!token) return;
+
     const newSocket = io('localhost:8000');
+    setMe((me) => ({ ...me, id: newSocket.id }));
     setSocket(newSocket);
-    newSocket.emit('join_lobby', name);
-    newSocket.on('load_players', (players: { id: string; name: string }[]) => {
-      console.log(players);
-      setUserList(players);
+
+    newSocket.on('connect', () => {
+      newSocket.emit('join_lobby', { ...me, id: newSocket.id });
     });
-    newSocket.on('new_player', (player) => {
-      setUserList((userList: { id: String; name: string }[]) => [...userList, player]);
+    newSocket.on('load_players', (players: Player[]) => {
+      setPlayerList(players);
     });
-    newSocket.on('leave', (player) => {
-      setUserList((userList) => [...userList].filter((user) => user.id !== player));
+    newSocket.on('new_player_joined', (player: Player) => {
+      setPlayerList((players) => [...players, player]);
     });
-    newSocket.on('load_rooms', (rooms: string[]) => setRoomList(rooms));
-    newSocket.on('create_room', (room) => setRoomList((roomList) => [...roomList, room]));
+    newSocket.on('player_left_lobby', (player: Player) => {
+      setPlayerList((players) => [...players].filter((p) => p.id !== player.id));
+    });
+    newSocket.on('load_rooms', (rooms: string[]) => console.log(rooms));
+    newSocket.on('room_created', (room) => setRoomList((roomList) => [...roomList, room]));
     return () => {
+      newSocket.emit('leave_room', { roomId: newSocket.id, player: me });
       newSocket.close();
     };
   }, [token]);

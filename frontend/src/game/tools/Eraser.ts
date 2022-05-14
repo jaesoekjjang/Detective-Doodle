@@ -11,9 +11,9 @@ export default class Eraser extends Tool {
   onMouseMove(ctx: CanvasRenderingContext2D, data: drawData) {
     const { x, y } = data.point;
     ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineWidth = data.width;
     ctx.beginPath();
     ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    ctx.lineWidth = data.width;
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.closePath();

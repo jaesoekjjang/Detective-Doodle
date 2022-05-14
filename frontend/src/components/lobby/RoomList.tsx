@@ -8,9 +8,9 @@ const RoomList = () => {
 
   console.log(roomList);
   return (
-    <div className="flex flex-col h-1/2 border-2 border-black">
+    <div className="flex flex-col h-1/2 border-2 border-black overflow-scroll">
       {roomList.map((room) => (
-        <RoomButton key={room} roomName={room}></RoomButton>
+        <RoomButton key={room.id} roomName={room.name}></RoomButton>
       ))}
     </div>
   );

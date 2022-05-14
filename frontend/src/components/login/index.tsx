@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { myName } from '../../recoil/myInfoAtom';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { tokenAtom } from '../../recoil/authAtom';
+import { meAtom } from '../../recoil/playerAtom';
+
+const KEY = 'detective-doodle-token';
+const VALUE = 'auth';
 
 const index = () => {
-  const name = useRecoilValue(myName);
-  const [nameInputValue, setNameInputValue] = useState(name);
+  const [nameInputValue, setNameInputValue] = useState('');
 
-  const [, setToken] = useLocalStorage('token');
+  const [token, setToken] = useRecoilState(tokenAtom);
+  const setMe = useSetRecoilState(meAtom);
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (token) navigate('/lobby');
+  }, []);
+
   const handleClickButton = () => {
-    setToken(name);
+    // TODO 로그인 함수를 별도로 분리한 뒤 백엔드와 연결하는 실제 로직 구현.
+    localStorage.setItem(KEY, VALUE);
+    setToken(VALUE);
+    setMe((me) => ({ ...me, name: nameInputValue }));
     navigate('/lobby', { replace: true });
   };
 
   return (
-    <div className="relative flex flex-col items-center gap-4 w-1/2 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+    <div className="relative flex flex-col items-center gap-4 w-1/2  ">
       <div className="flex justify-center items-center">
         <input
           type="text"
