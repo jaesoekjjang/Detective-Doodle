@@ -7,15 +7,26 @@
 }
 
 @layer components {
-  #canvas {
-    width: 680px;
-    height: 540px;
-    border: 1px solid black;
-  }
   .palette-block {
     @apply w-12 h-12 border-[1px] border-black rounded-md;
   }
 }
+
+.canvas {
+  width: 680px;
+  height: 540px;
+}
+
+.side {
+  width: 176px;
+  height: 540px;
+}
+
+.mask {
+  @apply bg-gray-100;
+  opacity: 50;
+}
+
 .lobby-button {
   @apply border-2 border-black h-10 leading-10;
 }

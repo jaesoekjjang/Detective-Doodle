@@ -51,7 +51,7 @@ function App() {
                     path="/single"
                     element={
                       <AuthRoute>
-                        <Game />
+                        <Game mode="single" />
                       </AuthRoute>
                     }
                   ></Route>

@@ -3,13 +3,15 @@ import Point from './models/Point';
 export default class Canvas {
   private canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
+  private containerRef: React.RefObject<HTMLElement>;
   private _ogPoint: Point = { x: 0, y: 0 };
   private history: ImageData[] = [];
   private historyPointer = -1;
 
-  constructor() {
+  constructor(containerRef: React.RefObject<HTMLElement>) {
     this.canvas = document.querySelector('#canvas')!;
     this._ctx = this.canvas.getContext('2d')!;
+    this.containerRef = containerRef;
     this.setOgPoint();
     this.init();
   }
@@ -23,7 +25,11 @@ export default class Canvas {
   }
 
   setOgPoint() {
-    this._ogPoint = { x: this.canvas.offsetLeft, y: this.canvas.offsetTop };
+    this._ogPoint = {
+      x: this.containerRef.current?.offsetLeft!,
+      y: this.containerRef.current?.offsetTop!,
+    };
+    console.log(this._ogPoint);
   }
 
   clear() {

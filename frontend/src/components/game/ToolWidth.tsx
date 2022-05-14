@@ -6,7 +6,6 @@ import { lineWidth } from '../../recoil/canvasAtom';
 const ToolWidth = () => {
   const [width, setWidth] = useRecoilState(lineWidth);
 
-  console.log(width);
   const handleWidth: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const newWidth = +e.currentTarget.value;
     setWidth(newWidth);

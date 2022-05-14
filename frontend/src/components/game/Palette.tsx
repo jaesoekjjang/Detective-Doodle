@@ -3,17 +3,11 @@ import { colorAtom } from '../../recoil/canvasAtom';
 import { useRecoilState } from 'recoil';
 
 import ColorButton from './ColorButton';
-
 import { basicColors } from '../../game/utils';
-import type Canvas from '../../game/Canvas';
-
-interface RightSideProps {
-  canvas: Canvas | null;
-}
 
 type RecentColors = [string, string, string];
 
-const Palette: React.FC<RightSideProps> = () => {
+const Palette: React.FC = () => {
   const [color, setColor] = useRecoilState(colorAtom);
 
   const [recentColors, setRecentColors] = useState<RecentColors>(['#000000', '#ffffff', '#ffffff']);

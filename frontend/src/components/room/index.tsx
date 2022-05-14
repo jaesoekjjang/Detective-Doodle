@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
@@ -19,9 +20,11 @@ const index = () => {
     socket?.on('load_room_users', (users) => setUserList(() => users));
   }, []);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <div className="flex gap-4">
-      <Game />
+      <Game mode="multi" />
       <GameInfoAndMessage />
     </div>
   );
