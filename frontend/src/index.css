@@ -15,6 +15,7 @@
 .canvas {
   width: 680px;
   height: 540px;
+  border: 1px solid gray;
 }
 
 .side {
