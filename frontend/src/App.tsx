@@ -16,10 +16,10 @@ const NotFound = lazy(() => import('./components/not-found'));
 function App() {
   return (
     <RecoilRoot>
-      <SocketProvider>
-        <BaseLayout>
-          <ErrorBoundary>
-            <Router>
+      <ErrorBoundary>
+        <Router>
+          <SocketProvider>
+            <BaseLayout>
               <Suspense fallback={<div>loading...</div>}>
                 <Routes>
                   <Route path="/login" element={<Login />}></Route>
@@ -58,10 +58,10 @@ function App() {
                   <Route path="*" element={<NotFound />}></Route>
                 </Routes>
               </Suspense>
-            </Router>
-          </ErrorBoundary>
-        </BaseLayout>
-      </SocketProvider>
+            </BaseLayout>
+          </SocketProvider>
+        </Router>
+      </ErrorBoundary>
     </RecoilRoot>
   );
 }

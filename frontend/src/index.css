@@ -24,8 +24,8 @@
 }
 
 .mask {
-  @apply bg-gray-100;
-  opacity: 50;
+  @apply bg-black;
+  opacity: 0.3;
 }
 
 .lobby-button {

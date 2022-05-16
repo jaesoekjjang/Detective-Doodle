@@ -1,16 +1,16 @@
 import React, { memo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { roomPlayerListAtom } from '../../recoil/playerAtom';
+import { currentRoomAtom, roomListAtom } from '../../recoil/roomAtom';
 
 const GameInfoAndMessage = () => {
-  const playerList = useRecoilValue(roomPlayerListAtom);
+  // const room = useRecoilValue(currentRoomAtom);
 
   return (
-    <div className=" flex flex-col w-64 gap-4">
+    <div className=" left-full flex flex-col w-64 h-full gap-4">
       <div className="w-full h-1/2 border-[1px] border-black">
-        {playerList.map((player) => (
-          <div>{player.name}</div>
-        ))}
+        {/* {Array.from(room?.players).map((player) => (
+          <div key={player.id}>{player.name}</div>
+        ))} */}
       </div>
       <div className="w-full h-1/2 border-[1px] border-black">위</div>
     </div>

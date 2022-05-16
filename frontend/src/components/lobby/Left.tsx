@@ -5,7 +5,7 @@ import Profile from './Profile';
 
 const Left = () => {
   const players = useRecoilValue(playerListAtom);
-
+  
   return (
     <div className=" flex flex-col basis-1/4 h-full  border-2 border-black">
       <Profile />

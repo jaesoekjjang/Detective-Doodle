@@ -1,11 +1,18 @@
 import { optimizeAnimation } from '../utils';
 import Point from './models/Point';
+import Tool from './models/Tool';
+import { Tools } from './models/Tools';
+import Eraser from './tools/Eraser';
+import Pencil from './tools/Pencil';
 
 export default class Canvas {
+  private containerRef: React.RefObject<HTMLElement>;
   private canvas: HTMLCanvasElement;
   private _ctx: CanvasRenderingContext2D;
-  private containerRef: React.RefObject<HTMLElement>;
   private _ogPoint: Point = { x: 0, y: 0 };
+  private pencil = new Pencil();
+  private eraser = new Eraser();
+  private _tool: Tool = this.pencil;
   private history: ImageData[] = [];
   private historyPointer = -1;
 
@@ -46,27 +53,24 @@ export default class Canvas {
     };
   }
 
-  clear() {
-    this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.storeImage();
-  }
-
-  get element() {
-    return this.canvas;
-  }
-
-  get ctx() {
-    return this._ctx;
-  }
-
-  get ogPoint() {
-    return this._ogPoint;
-  }
-
   relativePoint(p: Point): Point {
     const x = p.x - this._ogPoint.x;
     const y = p.y - this._ogPoint.y;
     return { x, y };
+  }
+
+  onMouseDown(point: Point) {
+    this._tool.onMouseDown(point);
+  }
+
+  onMouseMove(data: any) {
+    const { toolData, point } = data;
+    this._tool.onMouseMove(this.ctx, { point, ...toolData });
+  }
+
+  clear() {
+    this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.storeImage();
   }
 
   storeImage() {
@@ -87,5 +91,26 @@ export default class Canvas {
   redo() {
     if (this.historyPointer >= this.history.length - 1 || this.historyPointer <= -1) return;
     this._ctx.putImageData(this.history[++this.historyPointer], 0, 0);
+  }
+
+  get element() {
+    return this.canvas;
+  }
+
+  get ctx() {
+    return this._ctx;
+  }
+
+  get ogPoint() {
+    return this._ogPoint;
+  }
+
+  get image() {
+    return this.history[this.historyPointer];
+  }
+
+  set tool(tool: Tools) {
+    if (tool === 'pencil') this._tool = this.pencil;
+    if (tool === 'eraser') this._tool = this.eraser;
   }
 }

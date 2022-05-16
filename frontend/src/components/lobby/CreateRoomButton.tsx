@@ -1,12 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { meAtom } from '../../recoil/playerAtom';
-import { roomListAtom } from '../../recoil/roomAtom';
+import { currentRoomAtom, roomListAtom } from '../../recoil/roomAtom';
 import { useSocket } from '../hooks/useSocket';
 
 const CreateRoomButton = () => {
   const socket = useSocket();
-  const setRoomList = useSetRecoilState(roomListAtom);
+
+  const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const me = useRecoilValue(meAtom);
 
   const handleClick = () => {
@@ -16,6 +18,9 @@ const CreateRoomButton = () => {
         description: '테스트',
       },
       creator: me,
+    });
+    socket?.on('new_player_joined_room', (player) => {
+      setCurrentRoom((room) => ({ ...room, players: [...room.players, player] }));
     });
   };
 

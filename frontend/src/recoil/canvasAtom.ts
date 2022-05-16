@@ -20,6 +20,7 @@ export const eraserAtom = atom({
   key: 'eraser',
   default: {
     width: 16,
+    color: '',
   },
 });
 

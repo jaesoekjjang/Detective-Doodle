@@ -1,18 +1,29 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { meAtom } from '../../recoil/playerAtom';
+import { currentRoomAtom } from '../../recoil/roomAtom';
+import { Player } from '../../types/player.interface';
 import { useSocket } from '../hooks/useSocket';
 
 interface RoomButtonProps {
+  roomId: string;
   roomName: string;
 }
 
-const RoomButton: React.FC<RoomButtonProps> = ({ roomName }) => {
+const RoomButton: React.FC<RoomButtonProps> = ({ roomId, roomName }) => {
   const socket = useSocket();
   const navigate = useNavigate();
 
+  const [me, setMe] = useRecoilState(meAtom);
+  const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const handleClick = () => {
-    navigate(`/room/${roomName}`);
+    socket?.emit('join_room', { roomId, player: me });
+    socket?.on('room_joined', (players: Player[]) => {
+      setMe((me) => ({ ...me, roomId }));
+      // setCurrentRoom((room) => ({ ...room, players }));
+    });
+    navigate(`/room/${roomId}`);
   };
 
   return (

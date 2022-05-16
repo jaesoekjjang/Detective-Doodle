@@ -20,7 +20,7 @@ const Side: React.FC<SideProps> = ({ canvas, status }) => {
   };
 
   return (
-    <div className=" flex flex-col justify-between ">
+    <div className="relative flex flex-col justify-between ">
       {isNotDrawing(status) && <SideMask />}
       <Tools />
       <Palette />

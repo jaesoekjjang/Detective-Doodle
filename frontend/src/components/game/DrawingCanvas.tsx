@@ -2,7 +2,6 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cursorRadius, eraserAtom, pencilAtom, toolTypeAtom } from '../../recoil/canvasAtom';
 
-import { WIDTH, HEIGHT } from '../../game/utils';
 import Pencil from '../../game/tools/Pencil';
 import Eraser from '../../game/tools/Eraser';
 import Tool from '../../game/models/Tool';
@@ -10,6 +9,8 @@ import Tool from '../../game/models/Tool';
 import type Canvas from '../../game/Canvas';
 import type { Status } from '.';
 import CanvasMask from './CanvasMask';
+import { useSocket } from '../hooks/useSocket';
+import Point from '../../game/models/Point';
 
 interface DrawingCanvasProps {
   canvas: Canvas | null;
@@ -18,69 +19,98 @@ interface DrawingCanvasProps {
 
 const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
   ({ canvas, status }, containerRef) => {
+    const socket = useSocket();
+
     const isDrawing = useRef(false);
 
     const tool = useRecoilValue(toolTypeAtom);
-    const pencil = new Pencil();
-    const eraser = new Eraser();
 
     const pencilData = useRecoilValue(pencilAtom);
     const eraserData = useRecoilValue(eraserAtom);
 
-    const usingTool = useRef<Tool>(pencil);
-    const toolData = useRef<typeof pencilData | typeof eraserData>(pencilData);
-
-    useEffect(() => {
-      if (tool === 'pencil') {
-        usingTool.current = pencil;
-        toolData.current = pencilData;
-      } else {
-        usingTool.current = eraser;
-        toolData.current = eraserData;
-      }
-    }, [tool, pencilData, eraserData]);
+    const toolData = useRef<{ width: number; color: string }>(pencilData);
 
     useEffect(() => {
       if (!canvas) return;
-      const ctx = canvas.ctx;
+      canvas.tool = tool;
+      socket?.emit('set_tool', tool);
+    }, [tool]);
+
+    useEffect(() => {
+      if (tool === 'pencil') {
+        toolData.current = pencilData;
+      }
+      if (tool === 'eraser') {
+        toolData.current = eraserData;
+      }
+    }, [pencilData, eraserData]);
+
+    useEffect(() => {
+      if (!canvas) return;
 
       canvas.element.addEventListener('mousedown', (e) => {
-        const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-        usingTool.current.onMouseDown({ x, y });
+        const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
+        canvas.onMouseDown(point);
         isDrawing.current = true;
+        socket?.emit('draw_start', point);
       });
+
       canvas.element.addEventListener('mousemove', (e) => {
         if (!isDrawing.current) return;
-        const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-        usingTool.current.onMouseMove(ctx, { ...toolData.current, point: { x, y } });
+        const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
+        canvas.onMouseMove({ toolData: toolData.current, point });
+        socket?.emit('draw', { tool, toolData: toolData.current, point });
       });
+
       canvas.element.addEventListener('mouseup', () => {
         canvas.storeImage();
         isDrawing.current = false;
+        socket?.emit('draw_end');
       });
+
       canvas.element.addEventListener('mouseout', () => {
         isDrawing.current = false;
+      });
+
+      socket?.on('draw_start', (point: Point) => {
+        canvas.onMouseDown(point);
+      });
+
+      socket?.on('draw', (data: any) => {
+        const { toolData, point } = data;
+        canvas.onMouseMove({ toolData, point });
+      });
+
+      socket?.on('draw_end', () => {
+        isDrawing.current = false;
+      });
+
+      socket?.on('set_tool', (tool) => {
+        canvas.tool = tool;
+      });
+
+      socket?.on('put_image', (imageURL: string) => {
+        const img = new Image();
+        img.src = imageURL;
+        canvas.ctx.drawImage(img, 0, 0, canvas.element.width, canvas.element.height);
       });
     }, [canvas]);
 
     const radius = useRecoilValue(cursorRadius);
 
-    const isWaiting = (status: Status): status is 'waiting' => {
-      return status === 'waiting';
-    };
-
     return (
-      <div
-        className="relative canvas"
-        ref={containerRef}
-        style={{
-          cursor: `
-      url("data:image/svg+xml,%3Csvg width='${radius}' height='${radius}' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E")
-        ${radius / 2 - 1} ${radius / 2 - 1}, pointer
-      `,
-        }}
-      >
-        {isWaiting(status) && <CanvasMask />}
+      <div>
+        {status !== 'drawing' && <CanvasMask />}
+        <div
+          className="canvas"
+          ref={containerRef}
+          style={{
+            cursor: `
+            url("data:image/svg+xml,%3Csvg width='${radius}' height='${radius}' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z' stroke='gray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E")
+              ${radius / 2 - 1} ${radius / 2 - 1}, pointer
+            `,
+          }}
+        ></div>
       </div>
     );
   }
