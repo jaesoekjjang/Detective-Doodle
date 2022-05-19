@@ -15,12 +15,12 @@ const RedoAndUndo: React.FC<RedoAndUndoProps> = ({ canvas }) => {
 
   const handleClickUndo = () => {
     canvas?.undo();
-    socket?.emit('put_image', canvas?.element.toDataURL());
+    socket?.emit('undo');
   };
 
   const handleClickRedo = () => {
     canvas?.redo();
-    socket?.emit('put_image', canvas?.element.toDataURL());
+    socket?.emit('redo');
   };
 
   return (

@@ -1,14 +1,18 @@
 import React from 'react';
+import { useSocket } from '../hooks/useSocket';
 import type Canvas from '../../game/Canvas';
 
-interface NewCanvasButtonProps {
+interface ClearButtonProps {
   canvas: Canvas | null;
 }
 
-const NewCanvasButton: React.FC<NewCanvasButtonProps> = ({ canvas }) => {
+const ClearButton: React.FC<ClearButtonProps> = ({ canvas }) => {
+  const socket = useSocket();
+
   const handleClick = () => {
     if (!canvas) return;
     canvas.clear();
+    socket?.emit('clear');
   };
 
   return (
@@ -18,4 +22,4 @@ const NewCanvasButton: React.FC<NewCanvasButtonProps> = ({ canvas }) => {
   );
 };
 
-export default NewCanvasButton;
+export default ClearButton;

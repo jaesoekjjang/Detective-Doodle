@@ -3,7 +3,7 @@ import React from 'react';
 import Tools from './Tools';
 import Palette from './Palette';
 import RedoAndUndo from './RedoAndUndo';
-import NewCanvasButton from './NewCanvasButton';
+import ClearButton from './ClearButton';
 import SideMask from './SideMask';
 
 import type Canvas from '../../game/Canvas';
@@ -25,7 +25,7 @@ const Side: React.FC<SideProps> = ({ canvas, status }) => {
       <Tools />
       <Palette />
       <RedoAndUndo canvas={canvas} />
-      <NewCanvasButton canvas={canvas} />
+      <ClearButton canvas={canvas} />
     </div>
   );
 };

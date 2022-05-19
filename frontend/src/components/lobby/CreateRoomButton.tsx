@@ -11,6 +11,8 @@ const CreateRoomButton = () => {
   const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const me = useRecoilValue(meAtom);
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
     socket?.emit('create_room', {
       room: {
@@ -18,9 +20,6 @@ const CreateRoomButton = () => {
         description: '테스트',
       },
       creator: me,
-    });
-    socket?.on('new_player_joined_room', (player) => {
-      setCurrentRoom((room) => ({ ...room, players: [...room.players, player] }));
     });
   };
 

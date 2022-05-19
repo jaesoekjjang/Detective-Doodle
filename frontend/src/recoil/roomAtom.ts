@@ -10,4 +10,10 @@ export const roomListAtom = atom<Map<string, Room>>({
 
 export const currentRoomAtom = atom<Room>({
   key: 'currentRoom',
+  default: {
+    id: '',
+    name: '',
+    description: '',
+    players: [],
+  },
 });

@@ -1,4 +1,5 @@
-import { atom } from 'recoil';
+import { currentRoomAtom } from './roomAtom';
+import { atom, selector } from 'recoil';
 import { Player } from '../types/player.interface';
 
 export const meAtom = atom<Player>({
@@ -8,14 +9,4 @@ export const meAtom = atom<Player>({
     name: '',
     roomId: '',
   },
-});
-
-export const playerListAtom = atom<Player[]>({
-  key: 'playerList',
-  default: [],
-});
-
-export const roomPlayerListAtom = atom<Player[]>({
-  key: 'roomPlayerList',
-  default: [],
 });

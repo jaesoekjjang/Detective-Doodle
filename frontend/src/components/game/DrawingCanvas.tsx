@@ -2,10 +2,6 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { cursorRadius, eraserAtom, pencilAtom, toolTypeAtom } from '../../recoil/canvasAtom';
 
-import Pencil from '../../game/tools/Pencil';
-import Eraser from '../../game/tools/Eraser';
-import Tool from '../../game/models/Tool';
-
 import type Canvas from '../../game/Canvas';
 import type { Status } from '.';
 import CanvasMask from './CanvasMask';
@@ -82,18 +78,15 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
       });
 
       socket?.on('draw_end', () => {
+        canvas.storeImage();
         isDrawing.current = false;
       });
 
-      socket?.on('set_tool', (tool) => {
-        canvas.tool = tool;
-      });
+      socket?.on('set_tool', (tool) => (canvas.tool = tool));
 
-      socket?.on('put_image', (imageURL: string) => {
-        const img = new Image();
-        img.src = imageURL;
-        canvas.ctx.drawImage(img, 0, 0, canvas.element.width, canvas.element.height);
-      });
+      socket?.on('redo', () => canvas.redo());
+      socket?.on('undo', () => canvas.undo());
+      socket?.on('clear', () => canvas.clear());
     }, [canvas]);
 
     const radius = useRecoilValue(cursorRadius);

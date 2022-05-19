@@ -1,9 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { io, Socket } from 'socket.io-client';
 import { tokenAtom } from '../recoil/authAtom';
 import { currentRoomAtom, roomListAtom } from '../recoil/roomAtom';
-import { meAtom, playerListAtom } from '../recoil/playerAtom';
+import { meAtom } from '../recoil/playerAtom';
 import { Player } from '../types/player.interface';
 import { Room } from '../types/room.interface';
 import { useNavigate } from 'react-router-dom';
@@ -20,38 +20,63 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const [me, setMe] = useRecoilState(meAtom);
-  const setPlayerList = useSetRecoilState(playerListAtom);
   const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const setRoomList = useSetRecoilState(roomListAtom);
+
+  const resetCurrentRoom = useResetRecoilState(currentRoomAtom);
 
   useEffect(() => {
     if (!token) return;
 
     const newSocket = io('localhost:8000');
-    setMe((me) => ({ ...me, id: newSocket.id }));
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
-      newSocket.emit('join_lobby', { ...me, id: newSocket.id });
+      setMe((me) => ({ ...me, id: newSocket.id }));
+      newSocket.emit('load_rooms');
     });
-    newSocket.on('load_players', (players: Player[]) => {
-      setPlayerList(players);
-    });
-    newSocket.on('new_player_joined', (player: Player) => {
-      setPlayerList((players) => [...players, player]);
-    });
-    newSocket.on('player_left_lobby', (player: Player) => {
-      setPlayerList((players) => [...players].filter((p) => p.id !== player.id));
-    });
-    newSocket.on('load_rooms', (rooms: Map<string, Room>) => {
+
+    // newSocket.on('player_joined', (player: Player) => {
+    //   setCurrentRoom((room) => ({ ...room, players: [...room.players, player] }));
+    // });
+    // newSocket.on('player_left', (player: Player) => {
+    //   // setPlayerList((players) => [...players].filter((p) => p.id !== player.id));
+    //   setCurrentRoom((room) => ({
+    //     ...room,
+    //     players: [...room.players].filter((p) => p.id !== player.id),
+    //   }));
+    // });
+    newSocket.on('room_loaded', (rooms) => {
       setRoomList(new Map(Object.entries(rooms)));
     });
-    newSocket.on('add_new_room', (room: Room) => {
-      setRoomList((roomList) => new Map(roomList).set(room.id, room));
-      setMe((me) => ({ ...me, roomId: room.id }));
+
+    newSocket.on('room_created', (roomId: string) => {
+      setMe((me) => ({ ...me, roomId }));
+      navigate(`room/${roomId}`);
     });
+
+    newSocket.on('new_room', (room: Room) => {
+      setRoomList((roomList) => new Map(roomList).set(room.id, room));
+    });
+
+    newSocket.on('room_joined', (room: Room) => {
+      console.log(room);
+      setCurrentRoom(room);
+    });
+
+    newSocket.on('player_joined', (player: Player) => {
+      setCurrentRoom((room) => ({ ...room, players: [...room.players, player] }));
+    });
+
+    newSocket.on('player_left', (player: Player) => {
+      setCurrentRoom((room) => ({
+        ...room,
+        players: [...room.players.filter((p) => p.id !== player.id)],
+      }));
+    });
+
     return () => {
-      newSocket.emit('leave_room', { roomId: newSocket.id, player: me });
+      localStorage.removeItem('detective-doodle-token');
       newSocket.close();
     };
   }, [token]);

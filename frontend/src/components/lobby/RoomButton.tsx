@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { meAtom } from '../../recoil/playerAtom';
 import { currentRoomAtom } from '../../recoil/roomAtom';
 import { Player } from '../../types/player.interface';
+import { Room } from '../../types/room.interface';
 import { useSocket } from '../hooks/useSocket';
 
 interface RoomButtonProps {
@@ -15,14 +16,7 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomId, roomName }) => {
   const socket = useSocket();
   const navigate = useNavigate();
 
-  const [me, setMe] = useRecoilState(meAtom);
-  const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const handleClick = () => {
-    socket?.emit('join_room', { roomId, player: me });
-    socket?.on('room_joined', (players: Player[]) => {
-      setMe((me) => ({ ...me, roomId }));
-      // setCurrentRoom((room) => ({ ...room, players }));
-    });
     navigate(`/room/${roomId}`);
   };
 
