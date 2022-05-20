@@ -7,9 +7,9 @@ const RoomList = () => {
   const roomList = useRecoilValue(roomListAtom);
   return (
     <div className="flex flex-col h-1/2 border-2 border-black overflow-scroll">
-      {Array.from(roomList.values()).map((room) => (
-        <RoomButton key={room.id} roomId={room.id} roomName={room.name} />
-      ))}
+      {Array.from(roomList.values()).map(
+        (room) => room.status === 'waiting' && <RoomButton key={room.id} room={room} />
+      )}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import type { Status } from '.';
 import CanvasMask from './CanvasMask';
 import { useSocket } from '../hooks/useSocket';
 import Point from '../../game/models/Point';
+import { currentRoomAtom } from '../../recoil/roomAtom';
 
 interface DrawingCanvasProps {
   canvas: Canvas | null;
@@ -16,6 +17,7 @@ interface DrawingCanvasProps {
 const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
   ({ canvas, status }, containerRef) => {
     const socket = useSocket();
+    const { id: roomId } = useRecoilValue(currentRoomAtom);
 
     const isDrawing = useRef(false);
 
@@ -48,20 +50,29 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
         const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
         canvas.onMouseDown(point);
         isDrawing.current = true;
-        socket?.emit('draw_start', point);
+        socket?.emit('draw_start', { roomId, drawData: point });
       });
 
       canvas.element.addEventListener('mousemove', (e) => {
         if (!isDrawing.current) return;
         const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
         canvas.onMouseMove({ toolData: toolData.current, point });
-        socket?.emit('draw', { tool, toolData: toolData.current, point });
+        socket?.emit('draw', {
+          roomId,
+          drawData: { tool, toolData: toolData.current, point },
+        });
       });
 
       canvas.element.addEventListener('mouseup', () => {
         canvas.storeImage();
         isDrawing.current = false;
-        socket?.emit('draw_end');
+        socket?.emit('draw_end', { roomId });
+      });
+
+      canvas.element.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
+        canvas.paint({ x, y }, toolData.current.color);
       });
 
       canvas.element.addEventListener('mouseout', () => {
@@ -69,6 +80,7 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
       });
 
       socket?.on('draw_start', (point: Point) => {
+        console.log('mousedown');
         canvas.onMouseDown(point);
       });
 
@@ -87,7 +99,8 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
       socket?.on('redo', () => canvas.redo());
       socket?.on('undo', () => canvas.undo());
       socket?.on('clear', () => canvas.clear());
-    }, [canvas]);
+      //? 이렇게 해서 roomId를 클라이언트에서 보내야 하나? 서버에서 찾는게 더 좋은건 아닌가?
+    }, [canvas, roomId]);
 
     const radius = useRecoilValue(cursorRadius);
 

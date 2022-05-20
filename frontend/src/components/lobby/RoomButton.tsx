@@ -8,21 +8,22 @@ import { Room } from '../../types/room.interface';
 import { useSocket } from '../hooks/useSocket';
 
 interface RoomButtonProps {
-  roomId: string;
-  roomName: string;
+  room: Room;
 }
 
-const RoomButton: React.FC<RoomButtonProps> = ({ roomId, roomName }) => {
+const RoomButton: React.FC<RoomButtonProps> = ({ room }) => {
   const socket = useSocket();
   const navigate = useNavigate();
 
+  const { id, name, status } = room;
+
   const handleClick = () => {
-    navigate(`/room/${roomId}`);
+    navigate(`/room/${id}`);
   };
 
   return (
     <div onClick={handleClick} className="p-4 border-2 border-black bg-blue-300 cursor-pointer">
-      {roomName}
+      {name}
     </div>
   );
 };

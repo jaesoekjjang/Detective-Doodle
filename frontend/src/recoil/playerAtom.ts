@@ -1,5 +1,4 @@
-import { currentRoomAtom } from './roomAtom';
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { Player } from '../types/player.interface';
 
 export const meAtom = atom<Player>({

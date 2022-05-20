@@ -15,5 +15,6 @@ export const currentRoomAtom = atom<Room>({
     name: '',
     description: '',
     players: [],
+    status: 'waiting',
   },
 });

@@ -7,6 +7,7 @@ import { meAtom } from '../recoil/playerAtom';
 import { Player } from '../types/player.interface';
 import { Room } from '../types/room.interface';
 import { useNavigate } from 'react-router-dom';
+import useLogout from './hooks/useLogout';
 
 export const SocketContext = createContext<Socket | null>(null);
 
@@ -16,14 +17,12 @@ interface SocketProviderProps {
 
 const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const token = useRecoilValue(tokenAtom);
+  const [setToken, token] = useRecoilState(tokenAtom);
   const navigate = useNavigate();
 
   const [me, setMe] = useRecoilState(meAtom);
   const setCurrentRoom = useSetRecoilState(currentRoomAtom);
   const setRoomList = useSetRecoilState(roomListAtom);
-
-  const resetCurrentRoom = useResetRecoilState(currentRoomAtom);
 
   useEffect(() => {
     if (!token) return;
@@ -36,16 +35,6 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       newSocket.emit('load_rooms');
     });
 
-    // newSocket.on('player_joined', (player: Player) => {
-    //   setCurrentRoom((room) => ({ ...room, players: [...room.players, player] }));
-    // });
-    // newSocket.on('player_left', (player: Player) => {
-    //   // setPlayerList((players) => [...players].filter((p) => p.id !== player.id));
-    //   setCurrentRoom((room) => ({
-    //     ...room,
-    //     players: [...room.players].filter((p) => p.id !== player.id),
-    //   }));
-    // });
     newSocket.on('room_loaded', (rooms) => {
       setRoomList(new Map(Object.entries(rooms)));
     });
@@ -76,7 +65,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     });
 
     return () => {
-      localStorage.removeItem('detective-doodle-token');
+      useLogout();
       newSocket.close();
     };
   }, [token]);

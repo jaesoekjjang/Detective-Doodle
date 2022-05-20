@@ -31,6 +31,8 @@ export default class Canvas {
     this.setOgPoint();
     this._ctx.lineJoin = 'round';
     this._ctx.lineCap = 'round';
+    this._ctx.fillStyle = 'white';
+    this._ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this._ctx.translate(0.5, 0.5);
     this.storeImage();
   }
@@ -112,5 +114,87 @@ export default class Canvas {
   set tool(tool: Tools) {
     if (tool === 'pencil') this._tool = this.pencil;
     if (tool === 'eraser') this._tool = this.eraser;
+  }
+
+  hexToRgb(hex: string) {
+    hex = hex.replace('#', '');
+    var bigint = parseInt(hex, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+    return new Uint8ClampedArray([r, g, b]);
+  }
+
+  paint(point: Point, hexFillColor: string) {
+    const fillColor = this.hexToRgb(hexFillColor);
+    const targetColor = this.getPixelColor(
+      this._ctx.getImageData(0, 0, this.canvas.width, this.canvas.height),
+      point
+    );
+    if (!targetColor || this.isSameColor(targetColor, fillColor)) return;
+
+    const imageData = this._ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    this.fill(imageData, point, targetColor, fillColor);
+    this._ctx.putImageData(imageData, 0, 0);
+  }
+
+  getPixelColor(imageData: ImageData, point: Point) {
+    const { x, y } = point;
+    if (x < 0 || y < 0 || x > this.canvas.width || y > this.canvas.height) return;
+    return imageData.data.slice(
+      (x + y * this.canvas.width) * 4,
+      (x + y * this.canvas.width) * 4 + 3
+    );
+  }
+
+  setColor(imageData: ImageData, point: Point, fillColor: Uint8ClampedArray) {
+    const { x, y } = point;
+    const offset = (x + y * this.canvas.width) * 4;
+    fillColor.forEach((color, index) => {
+      imageData.data[offset + index] = fillColor[index];
+    });
+  }
+
+  fill(
+    imageData: ImageData,
+    point: Point,
+    targetColor: Uint8ClampedArray,
+    fillColor: Uint8ClampedArray
+  ) {
+    const direction = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+
+    const queue: [number, number][] = [];
+    queue.push([point.x, point.y]);
+    const visited = Array(this.canvas.height).fill(Array(this.canvas.width).fill(0));
+
+    while (queue.length > 0) {
+      const [x, y] = queue.shift()!;
+
+      const crntColor = this.getPixelColor(imageData, { x, y });
+      if (!crntColor || !this.isSameColor(crntColor, targetColor)) {
+        continue;
+      }
+
+      this.setColor(imageData, { x, y }, fillColor);
+
+      for (let [dx, dy] of direction) {
+        const nextX = x + dx;
+        const nextY = y + dy;
+        if (!visited[nextX][nextY]) {
+          queue.push([nextX, nextY]);
+        }
+      }
+    }
+  }
+
+  isSameColor(crntColor: Uint8ClampedArray, targetColor: Uint8ClampedArray) {
+    return Array(3)
+      .fill(0)
+      .reduce((prev, crnt, idx) => prev && crntColor[idx] === targetColor[idx], true);
   }
 }
