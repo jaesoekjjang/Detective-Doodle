@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="color" type="color" value="#ffffff">
+  <div id="value"></div>
+  <script>
+    const color = document.querySelector('#color')
+    document.querySelector('#value').innerHTML = convert(color.value) 
+    function convert(color){
+      color = color.replace('#', '');
+      r = color.slice(0, 2)
+      g = color.slice(2, 4)
+      b = color.slice(4, 6)
+      console.log(parseInt(r, 16))
+      return [r, g, b]
+    }
+  </script>
+</body>
+</html>

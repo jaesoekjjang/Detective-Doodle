@@ -48,7 +48,7 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
 
       canvas.element.addEventListener('mousedown', (e) => {
         const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-        canvas.onMouseDown(point);
+        canvas.onMouseDown({ point, ...toolData.current });
         isDrawing.current = true;
         socket?.emit('draw_start', { roomId, drawData: point });
       });
@@ -67,12 +67,6 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(
         canvas.storeImage();
         isDrawing.current = false;
         socket?.emit('draw_end', { roomId });
-      });
-
-      canvas.element.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        const { x, y } = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-        canvas.paint({ x, y }, toolData.current.color);
       });
 
       canvas.element.addEventListener('mouseout', () => {

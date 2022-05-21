@@ -8,15 +8,20 @@ interface drawData {
 }
 
 export default class Pencil extends Tool {
-  onMouseMove(ctx: CanvasRenderingContext2D, data: drawData) {
+  onMouseDown(data: drawData): void {
+    this.lastPoint = data.point;
+    console.log(this.lastPoint);
+  }
+
+  onMouseMove(data: drawData) {
     const { x, y } = data.point;
-    ctx.strokeStyle = data.color!;
-    ctx.lineWidth = data.width;
-    ctx.beginPath();
-    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    ctx.closePath();
+    this.ctx.strokeStyle = data.color!;
+    this.ctx.lineWidth = data.width;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    this.ctx.lineTo(x, y);
+    this.ctx.stroke();
+    this.ctx.closePath();
     this.lastPoint = { x, y };
   }
 }
