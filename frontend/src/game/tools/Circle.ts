@@ -1,5 +1,4 @@
 import Point from '../models/Point';
-import Tool from '../models/Tool';
 import ShapeTool from './ShapeTool';
 
 interface drawData {
@@ -23,6 +22,8 @@ export default class Rectangle extends ShapeTool {
     this.ctx.putImageData(this.image, 0, 0);
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = color;
-    this.ctx.strokeRect(startX, startY, width, height);
+    this.ctx.beginPath();
+    this.ctx.arc(startX, startY, width / 2, 0, Math.PI * 2);
+    this.ctx.stroke();
   }
 }
