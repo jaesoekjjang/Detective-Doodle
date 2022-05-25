@@ -3,6 +3,7 @@ import Point from './models/Point';
 import Tool from './models/Tool';
 import { Tools } from './models/Tools';
 import Bucket from './tools/Bucket';
+import Ellipse from './tools/Circle';
 import Eraser from './tools/Eraser';
 import Pencil from './tools/Pencil';
 import Rectangle from './tools/Rectangle';
@@ -17,6 +18,7 @@ export default class Canvas {
   private eraser: Eraser;
   private bucket: Bucket;
   private rectangle: Rectangle;
+  private ellipse: Ellipse;
   private _tool: Tool;
 
   private history: ImageData[] = [];
@@ -34,7 +36,8 @@ export default class Canvas {
     this.eraser = new Eraser(this._ctx);
     this.bucket = new Bucket(this.canvas);
     this.rectangle = new Rectangle(this.canvas);
-    this._tool = this.rectangle;
+    this.ellipse = new Ellipse(this.canvas);
+    this._tool = this.ellipse;
 
     this.initSetting();
   }

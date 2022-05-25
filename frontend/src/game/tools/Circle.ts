@@ -7,7 +7,7 @@ interface drawData {
   color: string;
 }
 
-export default class Rectangle extends ShapeTool {
+export default class Ellipse extends ShapeTool {
   onMouseMove(data: drawData) {
     const {
       point: { x, y },
@@ -16,14 +16,14 @@ export default class Rectangle extends ShapeTool {
     } = data;
     const { x: startX, y: startY } = this.startPoint;
 
-    const width = x - startX;
-    const height = y - startY;
+    const width = Math.abs(x - startX);
+    const height = Math.abs(y - startY);
 
     this.ctx.putImageData(this.image, 0, 0);
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = color;
     this.ctx.beginPath();
-    this.ctx.arc(startX, startY, width / 2, 0, Math.PI * 2);
+    this.ctx.ellipse(startX, startY, width / 2, height / 2, 0, 0, Math.PI * 2);
     this.ctx.stroke();
   }
 }
