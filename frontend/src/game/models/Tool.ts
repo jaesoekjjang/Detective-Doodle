@@ -12,6 +12,5 @@ export default abstract class Tool {
   constructor(protected ctx: CanvasRenderingContext2D) {}
 
   abstract onMouseDown(data: drawData): void;
-
   abstract onMouseMove(data: drawData): void;
 }
