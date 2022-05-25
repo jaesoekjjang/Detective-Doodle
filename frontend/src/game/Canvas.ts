@@ -25,16 +25,16 @@ export default class Canvas {
     this._ctx = this.canvas.getContext('2d')!;
     window.addEventListener('resize', optimizeAnimation(this.reSize.bind(this)));
 
+    this.setSize();
     this.pencil = new Pencil(this._ctx);
     this.eraser = new Eraser(this._ctx);
     this.bucket = new Bucket(this.canvas);
     this._tool = this.bucket;
 
-    this.init();
+    this.initSetting();
   }
 
-  private init() {
-    this.setSize();
+  private initSetting() {
     this.setOgPoint();
     this._ctx.lineJoin = 'round';
     this._ctx.lineCap = 'round';
@@ -46,7 +46,7 @@ export default class Canvas {
 
   reSize() {
     const tempImg = this._ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    this.init();
+    this.initSetting();
     this._ctx.putImageData(tempImg, 0, 0);
   }
 
@@ -86,8 +86,8 @@ export default class Canvas {
     this.history.splice(this.historyPointer + 1);
     this.history.push(this._ctx.getImageData(0, 0, this.canvas.width, this.canvas.height));
     this.historyPointer++;
-
     if (this.history.length <= 20) return;
+
     this.history.shift();
     this.historyPointer--;
   }

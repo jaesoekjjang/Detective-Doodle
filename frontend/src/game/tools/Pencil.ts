@@ -8,7 +8,7 @@ interface drawData {
 }
 
 export default class Pencil extends Tool {
-  onMouseDown(data: drawData): void {
+  onMouseDown(data: drawData) {
     this.lastPoint = data.point;
     console.log(this.lastPoint);
   }
