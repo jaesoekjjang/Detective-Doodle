@@ -25,10 +25,10 @@ const cursorWeight = {
   eraser: 2,
 };
 
-export const getMaxWidth = (toolType: Tools) => {
+export const getMaxWidth = (toolType: 'pencil' | 'eraser') => {
   return maxWidth[toolType];
 };
 
-export const getCursorWeight = (toolType: Tools) => {
+export const getCursorWeight = (toolType: 'pencil' | 'eraser') => {
   return cursorWeight[toolType];
 };

@@ -29,7 +29,7 @@ export default class Canvas {
     this.pencil = new Pencil(this._ctx);
     this.eraser = new Eraser(this._ctx);
     this.bucket = new Bucket(this.canvas);
-    this._tool = this.bucket;
+    this._tool = this.pencil;
 
     this.initSetting();
   }
@@ -73,8 +73,7 @@ export default class Canvas {
   }
 
   onMouseMove(data: any) {
-    const { toolData, point } = data;
-    this._tool.onMouseMove({ point, ...toolData });
+    this._tool.onMouseMove(data);
   }
 
   clear() {
@@ -121,5 +120,6 @@ export default class Canvas {
   set tool(tool: Tools) {
     if (tool === 'pencil') this._tool = this.pencil;
     if (tool === 'eraser') this._tool = this.eraser;
+    if (tool === 'bucket') this._tool = this.bucket;
   }
 }

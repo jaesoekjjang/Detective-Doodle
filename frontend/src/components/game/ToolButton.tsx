@@ -10,6 +10,7 @@ interface ToolButtonProps {
 const englishToKorean = {
   pencil: '연필',
   eraser: '지우개',
+  bucket: '채우기',
 };
 
 const ToolButton: React.FC<ToolButtonProps> = ({ type, tool, handleClickTool }) => {

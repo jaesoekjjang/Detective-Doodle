@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSocket } from '../hooks/useSocket';
 import type Canvas from '../../game/Canvas';
 
 interface ClearButtonProps {
@@ -7,12 +6,9 @@ interface ClearButtonProps {
 }
 
 const ClearButton: React.FC<ClearButtonProps> = ({ canvas }) => {
-  const socket = useSocket();
-
   const handleClick = () => {
     if (!canvas) return;
     canvas.clear();
-    socket?.emit('clear');
   };
 
   return (

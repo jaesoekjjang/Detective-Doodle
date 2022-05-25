@@ -10,7 +10,6 @@ interface drawData {
 export default class Pencil extends Tool {
   onMouseDown(data: drawData) {
     this.lastPoint = data.point;
-    console.log(this.lastPoint);
   }
 
   onMouseMove(data: drawData) {

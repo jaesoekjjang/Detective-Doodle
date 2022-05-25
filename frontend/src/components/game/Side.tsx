@@ -4,28 +4,11 @@ import Tools from './Tools';
 import Palette from './Palette';
 import RedoAndUndo from './RedoAndUndo';
 import ClearButton from './ClearButton';
-import SideMask from './SideMask';
 
-import type Canvas from '../../game/Canvas';
-import type { Status } from '.';
-
-interface SideProps {
-  canvas: Canvas | null;
-  status: Status;
-}
-
-const Side: React.FC<SideProps> = ({ canvas, status }) => {
-  const isNotDrawing = (status: Status): status is 'drawing' => {
-    return status !== 'drawing';
-  };
-
+const Side: React.FC = () => {
   return (
     <div className="relative flex flex-col justify-between ">
-      {isNotDrawing(status) && <SideMask />}
-      <Tools />
       <Palette />
-      <RedoAndUndo canvas={canvas} />
-      <ClearButton canvas={canvas} />
     </div>
   );
 };
