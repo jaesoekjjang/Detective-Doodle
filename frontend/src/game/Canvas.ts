@@ -3,8 +3,9 @@ import Point from './models/Point';
 import Tool from './models/Tool';
 import { Tools } from './models/Tools';
 import Bucket from './tools/Bucket';
-import Ellipse from './tools/Circle';
+import Ellipse from './tools/Ellipse';
 import Eraser from './tools/Eraser';
+import Line from './tools/Line';
 import Pencil from './tools/Pencil';
 import Rectangle from './tools/Rectangle';
 
@@ -16,9 +17,10 @@ export default class Canvas {
 
   private pencil: Pencil;
   private eraser: Eraser;
-  private bucket: Bucket;
   private rectangle: Rectangle;
   private ellipse: Ellipse;
+  private line: Line;
+  private bucket: Bucket;
   private _tool: Tool;
 
   private history: ImageData[] = [];
@@ -34,10 +36,11 @@ export default class Canvas {
     this.setSize();
     this.pencil = new Pencil(this._ctx);
     this.eraser = new Eraser(this._ctx);
-    this.bucket = new Bucket(this.canvas);
     this.rectangle = new Rectangle(this.canvas);
     this.ellipse = new Ellipse(this.canvas);
-    this._tool = this.ellipse;
+    this.line = new Line(this.canvas);
+    this.bucket = new Bucket(this.canvas);
+    this._tool = this.line;
 
     this.initSetting();
   }
@@ -128,6 +131,9 @@ export default class Canvas {
   set tool(tool: Tools) {
     if (tool === 'pencil') this._tool = this.pencil;
     if (tool === 'eraser') this._tool = this.eraser;
+    if (tool === 'rectangle') this._tool = this.rectangle;
+    if (tool === 'ellipse') this._tool = this.ellipse;
+    if (tool === 'line') this._tool = this.line;
     if (tool === 'bucket') this._tool = this.bucket;
   }
 }

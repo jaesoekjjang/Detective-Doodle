@@ -24,21 +24,14 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(({ canvas }
   const color = useRecoilValue(colorAtom);
 
   const toolData = useRef({ width: pencilWidth, color });
+
   useEffect(() => {
     if (!canvas) return;
     canvas.tool = tool;
   }, [tool]);
 
   useEffect(() => {
-    if (tool === 'pencil') {
-      toolData.current = { width: pencilWidth, color };
-    }
-    if (tool === 'eraser') {
-      toolData.current = { width: eraserWidth, color: '#ffffff' };
-    }
-    if (tool === 'bucket') {
-      toolData.current = { ...toolData.current, color };
-    }
+    toolData.current = { ...toolData.current, color };
   }, [pencilWidth, eraserWidth, color]);
 
   useEffect(() => {

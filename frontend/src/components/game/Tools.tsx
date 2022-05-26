@@ -33,7 +33,14 @@ const Tools: React.FC<ToolsProps> = ({ canvas }) => {
         <ToolButton type="pencil" tool={tool} handleClickTool={handleClickTool} />
         <ToolButton type="eraser" tool={tool} handleClickTool={handleClickTool} />
       </div>
-      <ToolButton type="bucket" tool={tool} handleClickTool={handleClickTool} />
+      <div>
+        <ToolButton type="rectangle" tool={tool} handleClickTool={handleClickTool} />
+        <ToolButton type="ellipse" tool={tool} handleClickTool={handleClickTool} />
+      </div>
+      <div>
+        <ToolButton type="line" tool={tool} handleClickTool={handleClickTool} />
+        <ToolButton type="bucket" tool={tool} handleClickTool={handleClickTool} />
+      </div>
       <ToolWidth />
       <RedoAndUndo canvas={canvas} />
       <ClearButton canvas={canvas} />

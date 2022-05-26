@@ -10,6 +10,9 @@ interface ToolButtonProps {
 const englishToKorean = {
   pencil: '연필',
   eraser: '지우개',
+  rectangle: '사각형',
+  ellipse: '원형',
+  line: '직선',
   bucket: '채우기',
 };
 

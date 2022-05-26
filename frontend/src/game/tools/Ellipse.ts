@@ -16,6 +16,9 @@ export default class Ellipse extends ShapeTool {
     } = data;
     const { x: startX, y: startY } = this.startPoint;
 
+    const centerX = Math.abs(x + startX) / 2;
+    const centerY = Math.abs(y + startY) / 2;
+
     const width = Math.abs(x - startX);
     const height = Math.abs(y - startY);
 
@@ -23,7 +26,7 @@ export default class Ellipse extends ShapeTool {
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = color;
     this.ctx.beginPath();
-    this.ctx.ellipse(startX, startY, width / 2, height / 2, 0, 0, Math.PI * 2);
+    this.ctx.ellipse(centerX, centerY, width / 2, height / 2, 0, 0, Math.PI * 2);
     this.ctx.stroke();
   }
 }

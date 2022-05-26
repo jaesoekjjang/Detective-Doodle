@@ -1,1 +1,1 @@
-export type Tools = 'pencil' | 'eraser' | 'bucket';
+export type Tools = 'pencil' | 'eraser' | 'rectangle' | 'ellipse' | 'line' | 'bucket';
