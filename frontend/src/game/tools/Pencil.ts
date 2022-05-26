@@ -1,18 +1,12 @@
-import Point from '../models/Point';
 import Tool from '../models/Tool';
-
-interface drawData {
-  point: Point;
-  width: number;
-  color?: string;
-}
+import type { DrawData } from '../models/DrawData';
 
 export default class Pencil extends Tool {
-  onMouseDown(data: drawData) {
+  onMouseDown(data: DrawData) {
     this.lastPoint = data.point;
   }
 
-  onMouseMove(data: drawData) {
+  onMouseMove(data: DrawData) {
     const { x, y } = data.point;
     this.ctx.strokeStyle = data.color!;
     this.ctx.lineWidth = data.width;

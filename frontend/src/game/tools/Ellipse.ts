@@ -1,14 +1,8 @@
-import Point from '../models/Point';
 import ShapeTool from './ShapeTool';
-
-interface drawData {
-  point: Point;
-  width: number;
-  color: string;
-}
+import type { DrawData } from '../models/DrawData';
 
 export default class Ellipse extends ShapeTool {
-  onMouseMove(data: drawData) {
+  onMouseMove(data: DrawData) {
     const {
       point: { x, y },
       color,

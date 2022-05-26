@@ -1,10 +1,7 @@
-import Point from '../models/Point';
 import Tool from '../models/Tool';
-
-interface DrawData {
-  point: Point;
-  color: string;
-}
+import Point from '../models/Point';
+import { Queue } from './../utils';
+import type { DrawData } from '../models/DrawData';
 
 export default class Bucket extends Tool {
   private visited: number[][];
@@ -107,35 +104,5 @@ export default class Bucket extends Tool {
         }
       }
     }
-  }
-}
-
-class Queue<T> {
-  private elements: { [key in number]: T };
-  private head = 0;
-  private tail = 0;
-
-  constructor() {
-    this.elements = {};
-  }
-
-  enqueue(element: T) {
-    this.elements[this.tail] = element;
-    ++this.tail;
-  }
-
-  dequeue() {
-    const item = this.elements[this.head];
-    delete this.elements[this.head];
-    ++this.head;
-    return item;
-  }
-
-  isEmpty() {
-    return this.length === 0;
-  }
-
-  get length() {
-    return this.tail - this.head;
   }
 }

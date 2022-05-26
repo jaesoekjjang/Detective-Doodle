@@ -1,20 +1,13 @@
-import Point from '../models/Point';
 import ShapeTool from './ShapeTool';
-
-interface drawData {
-  point: Point;
-  width: number;
-  color: string;
-}
+import type { DrawData } from '../models/DrawData';
 
 export default class Line extends ShapeTool {
-  onMouseMove(data: drawData) {
+  onMouseMove(data: DrawData) {
     const {
       point: { x, y },
       color,
       width: lineWidth,
     } = data;
-    const { x: startX, y: startY } = this.startPoint;
 
     this.ctx.putImageData(this.image, 0, 0);
     this.ctx.beginPath();

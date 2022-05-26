@@ -1,13 +1,14 @@
-import { optimizeAnimation } from '../utils';
-import Point from './models/Point';
-import Tool from './models/Tool';
-import { Tools } from './models/Tools';
 import Bucket from './tools/Bucket';
 import Ellipse from './tools/Ellipse';
 import Eraser from './tools/Eraser';
 import Line from './tools/Line';
 import Pencil from './tools/Pencil';
 import Rectangle from './tools/Rectangle';
+
+import type { Tools } from './models/Tools';
+import type Point from './models/Point';
+import type Tool from './models/Tool';
+import { optimizeAnimation } from '../utils';
 
 export default class Canvas {
   private containerRef: React.RefObject<HTMLElement>;
@@ -89,6 +90,7 @@ export default class Canvas {
 
   clear() {
     this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this._ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.storeImage();
   }
 
