@@ -1,7 +1,4 @@
-import type { Tools } from './models/Tools';
-
-export const WIDTH = '680px';
-export const HEIGHT = '540px';
+import { Tools } from './models/Tools';
 
 export const basicColors = [
   '#000000',
@@ -15,22 +12,21 @@ export const basicColors = [
   '#c32de1',
 ];
 
-const maxWidth = {
-  pencil: 14,
-  eraser: 30,
+export const convertToInputWidth = (lineWidth: number) => {
+  return ((lineWidth - 1) / 15) * 50;
 };
 
-const cursorWeight = {
-  pencil: 4,
-  eraser: 2,
+export const convertToToolWidth = (lineWidth: number) => {
+  return (lineWidth / 50) * 15 + 1;
 };
 
-export const getMaxWidth = (toolType: 'pencil' | 'eraser') => {
-  return maxWidth[toolType];
-};
-
-export const getCursorWeight = (toolType: 'pencil' | 'eraser') => {
-  return cursorWeight[toolType];
+export const cursorRadius = (toolType: Tools, lineWidth: number) => {
+  //? 1.2배 해야 맞는데 이유를 모르겠음...
+  let radius = Math.max(lineWidth * 1.2, 8);
+  if (toolType === 'eraser') {
+    radius = radius * 2;
+  }
+  return radius;
 };
 
 export class Queue<T> {

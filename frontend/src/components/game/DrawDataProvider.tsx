@@ -18,7 +18,7 @@ interface Store {
 export const DrawDataContext = createContext<Store>({} as Store);
 
 const DrawDataProvider: React.FC<DrawDataProviderProps> = ({ children }) => {
-  const [drawData, setDrawData] = useState({ color: '#000000', width: 8 });
+  const [drawData, setDrawData] = useState({ color: '#000000', width: 15 });
   return (
     <DrawDataContext.Provider value={{ drawData, setDrawData }}>
       {children}

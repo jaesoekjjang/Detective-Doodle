@@ -1,21 +1,19 @@
-import React from 'react';
-import { useContext } from 'react';
-
-import { useRecoilState } from 'recoil';
-import { lineWidth } from '../../recoil/canvasAtom';
+import React, { useContext, useState } from 'react';
 import { DrawDataContext } from './DrawDataProvider';
 
+import { convertToInputWidth, convertToToolWidth } from '../../game/utils';
+
 const ToolWidth = () => {
-  // const [width, setWidth] = useRecoilState(lineWidth);
   const { drawData, setDrawData } = useContext(DrawDataContext);
+  const [inputWidth, setInputWidth] = useState(convertToInputWidth(drawData.width));
 
   const handleWidth: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const newWidth = +e.currentTarget.value;
-    // setWidth(newWidth);
-    setDrawData((drawData) => ({ ...drawData, width: newWidth }));
+    const width = +e.currentTarget.value;
+    setInputWidth(width);
+    setDrawData((drawData) => ({ ...drawData, width: convertToToolWidth(width) }));
   };
 
-  return <input className="w-40" type="range" onChange={handleWidth} value={drawData.width} />;
+  return <input className="w-40" type="range" onChange={handleWidth} value={inputWidth} />;
 };
 
 export default ToolWidth;
