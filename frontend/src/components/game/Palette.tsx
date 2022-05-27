@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import { colorAtom } from '../../recoil/canvasAtom';
-import { useRecoilState } from 'recoil';
 
 import ColorButton from './ColorButton';
 import { basicColors } from '../../game/utils';
+import { DrawDataContext } from './DrawDataProvider';
+import { useContext } from 'react';
 
 type RecentColors = [string, string, string];
 
 const Palette: React.FC = () => {
-  const [color, setColor] = useRecoilState(colorAtom);
+  const { drawData, setDrawData } = useContext(DrawDataContext);
 
   const [recentColors, setRecentColors] = useState<RecentColors>(['#000000', '#ffffff', '#ffffff']);
-  const [inputColor, setInputColor] = useState(color);
+  const [inputColor, setInputColor] = useState(drawData.color);
 
   const changeColor = (
     e: React.MouseEvent<HTMLButtonElement> | React.FocusEvent<HTMLInputElement>
   ) => {
     const colorHex = e.currentTarget.value;
-    setColor(colorHex);
+    setDrawData((drawData) => ({ ...drawData, color: colorHex }));
     setInputColor(colorHex);
 
     if (recentColors.includes(colorHex)) return;

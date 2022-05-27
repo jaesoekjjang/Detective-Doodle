@@ -20,10 +20,10 @@ const RedoAndUndo: React.FC<RedoAndUndoProps> = ({ canvas }) => {
 
   return (
     <div>
-      <button className="w-20 h-10 border-2 border-black text-center" onClick={handleClickUndo}>
+      <button type="button" className="tool border-black" onClick={handleClickUndo}>
         <Undo />
       </button>
-      <button className="w-20 h-10 border-2 border-black text-center" onClick={handleClickRedo}>
+      <button type="button" className="tool border-black" onClick={handleClickRedo}>
         <Redo />
       </button>
     </div>

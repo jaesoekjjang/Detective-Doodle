@@ -1,14 +1,8 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
-import {
-  colorAtom,
-  cursorRadius,
-  eraserWidthAtom,
-  pencilWidthAtom,
-  toolTypeAtom,
-} from '../../recoil/canvasAtom';
+import React, { useContext, useEffect, forwardRef, useRef } from 'react';
 
 import type Canvas from '../../game/Canvas';
+import { DrawDataContext } from './DrawDataProvider';
+import { ToolTypeContext } from './ToolTypeProvider';
 
 interface DrawingCanvasProps {
   canvas: Canvas | null;
@@ -17,35 +11,31 @@ interface DrawingCanvasProps {
 const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(({ canvas }, containerRef) => {
   const isDrawing = useRef(false);
 
-  const tool = useRecoilValue(toolTypeAtom);
-
-  const pencilWidth = useRecoilValue(pencilWidthAtom);
-  const eraserWidth = useRecoilValue(eraserWidthAtom);
-  const color = useRecoilValue(colorAtom);
-
-  const toolData = useRef({ width: pencilWidth, color });
+  const { toolType } = useContext(ToolTypeContext);
+  const { drawData: data } = useContext(DrawDataContext);
+  const drawData = useRef(data);
 
   useEffect(() => {
     if (!canvas) return;
-    canvas.tool = tool;
-  }, [tool]);
+    canvas.tool = toolType;
+  }, [toolType]);
 
   useEffect(() => {
-    toolData.current = { ...toolData.current, color };
-  }, [pencilWidth, eraserWidth, color]);
+    drawData.current = data;
+  }, [data]);
 
   useEffect(() => {
     if (!canvas) return;
     canvas.element.addEventListener('mousedown', (e) => {
       const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-      canvas.onMouseDown({ point, ...toolData.current });
+      canvas.onMouseDown({ point, ...drawData.current });
       isDrawing.current = true;
     });
 
     canvas.element.addEventListener('mousemove', (e) => {
       if (!isDrawing.current) return;
       const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-      canvas.onMouseMove({ point, ...toolData.current });
+      canvas.onMouseMove({ point, ...drawData.current });
     });
 
     canvas.element.addEventListener('mouseup', () => {
@@ -58,10 +48,10 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(({ canvas }
     });
   }, [canvas]);
 
-  const radius = useRecoilValue(cursorRadius);
+  const radius = 16;
 
   return (
-    <div>
+    <div className="">
       <div
         className="canvas"
         ref={containerRef}

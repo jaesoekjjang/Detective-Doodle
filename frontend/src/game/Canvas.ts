@@ -41,7 +41,7 @@ export default class Canvas {
     this.ellipse = new Ellipse(this.canvas);
     this.line = new Line(this.canvas);
     this.bucket = new Bucket(this.canvas);
-    this._tool = this.line;
+    this._tool = this.pencil;
 
     this.initSetting();
   }

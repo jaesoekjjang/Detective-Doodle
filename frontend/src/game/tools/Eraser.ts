@@ -12,7 +12,7 @@ export default class Eraser extends Tool {
     const { x, y } = data.point;
     // ctx.globalCompositeOperation = 'destination-out';
     this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = data.width;
+    this.ctx.lineWidth = data.width * 2;
     this.ctx.beginPath();
     this.ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
     this.ctx.lineTo(x, y);
