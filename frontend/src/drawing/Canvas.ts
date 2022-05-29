@@ -94,6 +94,7 @@ export default class Canvas {
 
   clear() {
     this._ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#ffffff';
     this._ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.storeImage();
   }

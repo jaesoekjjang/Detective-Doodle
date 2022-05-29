@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Redo from './Redo';
-import Undo from './Undo';
+import Redo from '../icons/Redo';
+import Undo from '../icons/Undo';
 
 import type Canvas from '../../drawing/Canvas';
 
@@ -19,14 +19,14 @@ const RedoAndUndo: React.FC<RedoAndUndoProps> = ({ canvas }) => {
   };
 
   return (
-    <div>
-      <button type="button" className="tool border-black" onClick={handleClickUndo}>
+    <>
+      <button type="button" className="tool" onClick={handleClickUndo}>
         <Undo />
       </button>
-      <button type="button" className="tool border-black" onClick={handleClickRedo}>
+      <button type="button" className="tool" onClick={handleClickRedo}>
         <Redo />
       </button>
-    </div>
+    </>
   );
 };
 

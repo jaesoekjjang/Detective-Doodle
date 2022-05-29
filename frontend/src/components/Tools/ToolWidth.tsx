@@ -13,7 +13,11 @@ const ToolWidth = () => {
     setToolData((toolData) => ({ ...toolData, width: convertToToolWidth(width) }));
   };
 
-  return <input className="w-40" type="range" onChange={handleWidth} value={inputWidth} />;
+  return (
+    <div>
+      <input className="line-width" type="range" onChange={handleWidth} value={inputWidth} />
+    </div>
+  );
 };
 
 export default ToolWidth;

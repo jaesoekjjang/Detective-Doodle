@@ -4,12 +4,15 @@ export const basicColors = [
   '#000000',
   '#787878',
   '#ffffff',
-  '#ef4444',
-  '#f542aa',
+  '#FEAFA8',
   '#eab308',
   '#22c55e',
-  '#3b82f6',
-  '#c32de1',
+  '#ef4444',
+  '#FF7829',
+  '#017420',
+  '#99004E',
+  '#964112',
+  '#0050CD',
 ];
 
 export const convertToInputWidth = (lineWidth: number) => {

@@ -26,20 +26,13 @@ const Tools: React.FC<ToolsProps> = ({ canvas }) => {
   );
 
   return (
-    <div className="flex flex-col gap-2">
-      <ToolWidth />
-      <div>
-        <ToolButton type="pencil" tool={toolType} handleClickTool={handleClickTool} />
-        <ToolButton type="eraser" tool={toolType} handleClickTool={handleClickTool} />
-      </div>
-      <div>
-        <ToolButton type="rectangle" tool={toolType} handleClickTool={handleClickTool} />
-        <ToolButton type="ellipse" tool={toolType} handleClickTool={handleClickTool} />
-      </div>
-      <div>
-        <ToolButton type="line" tool={toolType} handleClickTool={handleClickTool} />
-        <ToolButton type="bucket" tool={toolType} handleClickTool={handleClickTool} />
-      </div>
+    <div className="side">
+      <ToolButton type="pencil" tool={toolType} handleClickTool={handleClickTool} />
+      <ToolButton type="eraser" tool={toolType} handleClickTool={handleClickTool} />
+      <ToolButton type="rectangle" tool={toolType} handleClickTool={handleClickTool} />
+      <ToolButton type="ellipse" tool={toolType} handleClickTool={handleClickTool} />
+      <ToolButton type="line" tool={toolType} handleClickTool={handleClickTool} />
+      <ToolButton type="bucket" tool={toolType} handleClickTool={handleClickTool} />
       <RedoAndUndo canvas={canvas} />
       <ClearButton canvas={canvas} />
     </div>

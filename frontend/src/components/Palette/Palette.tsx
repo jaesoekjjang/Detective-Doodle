@@ -23,16 +23,16 @@ const Palette: React.FC = () => {
     setRecentColors((recentColors) => [colorHex, ...recentColors.slice(0, 2)] as RecentColors);
   };
 
-  const mapRecentColorsButtons = (recentColors: string[]) =>
+  const mapColorButtons = (recentColors: string[]) =>
     recentColors.map((color, index) => (
       <ColorButton key={color + index} changeColor={changeColor} color={color}></ColorButton>
     ));
 
   return (
-    <div className="flex w-44 flex-col gap-4 ">
-      <div className="flex flex-wrap gap-2">{mapRecentColorsButtons(recentColors)}</div>
-      <hr className="w-40" style={{ height: '2px', background: 'black' }} />
-      <div className="flex flex-wrap gap-2">{mapRecentColorsButtons(basicColors)}</div>
+    <div className="side">
+      {mapColorButtons(recentColors)}
+      <hr className="w-full" style={{ height: '2px', background: 'black' }} />
+      {mapColorButtons(basicColors)}
       <input
         className="color-input"
         type="color"

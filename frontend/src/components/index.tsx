@@ -5,6 +5,7 @@ import Tools from './Tools';
 import Palette from './Palette/Palette';
 
 import Canvas from '../drawing/Canvas';
+import ToolWidth from './Tools/ToolWidth';
 
 const Game: React.FC = () => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);
@@ -20,10 +21,15 @@ const Game: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center gap-8 h-screen bg-blue-900">
-      <Palette />
-      <DrawingCanvas canvas={canvas} ref={containerRef} />
-      <Tools canvas={canvas} />
+    <div className="flex flex-col justify-center items-center gap-4 h-screen bg-blue-800">
+      <div className="flex items-center gap-8">
+        <Palette />
+        <div>
+          <DrawingCanvas canvas={canvas} ref={containerRef} />
+        </div>
+        <Tools canvas={canvas} />
+      </div>
+      <ToolWidth />
     </div>
   );
 };
