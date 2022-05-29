@@ -1,5 +1,6 @@
 import React from 'react';
 import type Canvas from '../../drawing/Canvas';
+import Clear from '../icons/Clear';
 
 interface ClearButtonProps {
   canvas: Canvas | null;
@@ -13,7 +14,7 @@ const ClearButton: React.FC<ClearButtonProps> = ({ canvas }) => {
 
   return (
     <button onClick={handleClick} className="tool clear-canvas">
-      새 그림판
+      <Clear />
     </button>
   );
 };
