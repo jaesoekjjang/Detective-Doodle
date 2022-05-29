@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Tools } from '../../game/models/Tools';
+import type { ToolTypes } from '../../drawing/models/TooTypes';
 
 interface ToolButtonProps {
-  type: Tools;
-  tool: Tools;
+  type: ToolTypes;
+  tool: ToolTypes;
   handleClickTool: React.MouseEventHandler<HTMLButtonElement>;
 }
 

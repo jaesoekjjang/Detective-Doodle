@@ -5,10 +5,12 @@ import Line from './tools/Line';
 import Pencil from './tools/Pencil';
 import Rectangle from './tools/Rectangle';
 
-import type { Tools } from './models/Tools';
+import type { ToolTypes } from './models/TooTypes';
 import type Point from './models/Point';
 import type Tool from './models/Tool';
+
 import { optimizeAnimation } from '../utils';
+import { ToolData } from './models/ToolData';
 
 export default class Canvas {
   private containerRef: React.RefObject<HTMLElement>;
@@ -80,12 +82,14 @@ export default class Canvas {
     return { x, y };
   }
 
-  onMouseDown(data: any) {
-    this._tool.onMouseDown(data);
+  onMouseDown(data: ToolData) {
+    const point = this.relativePoint(data.point);
+    this._tool.onMouseDown({ ...data, point });
   }
 
-  onMouseMove(data: any) {
-    this._tool.onMouseMove(data);
+  onMouseMove(data: ToolData) {
+    const point = this.relativePoint(data.point);
+    this._tool.onMouseMove({ ...data, point });
   }
 
   clear() {
@@ -130,7 +134,7 @@ export default class Canvas {
     return this.history[this.historyPointer];
   }
 
-  set tool(tool: Tools) {
+  set tool(tool: ToolTypes) {
     if (tool === 'pencil') this._tool = this.pencil;
     if (tool === 'eraser') this._tool = this.eraser;
     if (tool === 'rectangle') this._tool = this.rectangle;

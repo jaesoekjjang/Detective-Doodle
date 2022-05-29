@@ -1,29 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
+import { ToolTypeContext } from '../ToolTypeProvider';
 
 import ToolButton from './ToolButton';
 import ToolWidth from './ToolWidth';
 
-import { Tools as ToolsType } from '../../game/models/Tools';
 import RedoAndUndo from './RedoAndUndo';
 import ClearButton from './ClearButton';
-import type Canvas from '../../game/Canvas';
-import { ToolTypeContext } from './ToolTypeProvider';
-import { useContext } from 'react';
+import type Canvas from '../../drawing/Canvas';
+import { ToolTypes } from '../../drawing/models/TooTypes';
 
 interface ToolsProps {
   canvas: Canvas | null;
 }
 
 const Tools: React.FC<ToolsProps> = ({ canvas }) => {
-  // TODO 드래그할 때 뿐만 아니라 1번 클릭 했을 때도 기능하도록.
-  // const [tool, setTool] = useRecoilState(toolTypeAtom);
   const { toolType, setToolType } = useContext(ToolTypeContext);
 
   const handleClickTool: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const newTool = e.currentTarget.value;
       if (newTool === toolType) return;
-      setToolType(newTool as ToolsType);
+      setToolType(newTool as ToolTypes);
     },
     [toolType]
   );

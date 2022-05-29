@@ -6,8 +6,8 @@ interface DrawDataProviderProps {
 }
 
 interface Store {
-  drawData: { color: string; width: number };
-  setDrawData: React.Dispatch<
+  toolData: { color: string; width: number };
+  setToolData: React.Dispatch<
     React.SetStateAction<{
       color: string;
       width: number;
@@ -15,14 +15,14 @@ interface Store {
   >;
 }
 
-export const DrawDataContext = createContext<Store>({} as Store);
+export const ToolDataContext = createContext<Store>({} as Store);
 
 const DrawDataProvider: React.FC<DrawDataProviderProps> = ({ children }) => {
-  const [drawData, setDrawData] = useState({ color: '#000000', width: 15 });
+  const [toolData, setToolData] = useState({ color: '#000000', width: 8 });
   return (
-    <DrawDataContext.Provider value={{ drawData, setDrawData }}>
+    <ToolDataContext.Provider value={{ toolData, setToolData }}>
       {children}
-    </DrawDataContext.Provider>
+    </ToolDataContext.Provider>
   );
 };
 

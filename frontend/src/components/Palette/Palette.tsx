@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { ToolDataContext } from '../ToolDataProvider';
 
 import ColorButton from './ColorButton';
-import { basicColors } from '../../game/utils';
-import { DrawDataContext } from './DrawDataProvider';
-import { useContext } from 'react';
+import { basicColors } from '../../utils';
 
 type RecentColors = [string, string, string];
 
 const Palette: React.FC = () => {
-  const { drawData, setDrawData } = useContext(DrawDataContext);
+  const { toolData, setToolData } = useContext(ToolDataContext);
 
   const [recentColors, setRecentColors] = useState<RecentColors>(['#000000', '#ffffff', '#ffffff']);
-  const [inputColor, setInputColor] = useState(drawData.color);
+  const [inputColor, setInputColor] = useState(toolData.color);
 
   const changeColor = (
     e: React.MouseEvent<HTMLButtonElement> | React.FocusEvent<HTMLInputElement>
   ) => {
     const colorHex = e.currentTarget.value;
-    setDrawData((drawData) => ({ ...drawData, color: colorHex }));
+    setToolData((toolData) => ({ ...toolData, color: colorHex }));
     setInputColor(colorHex);
 
     if (recentColors.includes(colorHex)) return;

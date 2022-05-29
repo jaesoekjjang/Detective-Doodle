@@ -3,7 +3,7 @@ import React from 'react';
 import Redo from './Redo';
 import Undo from './Undo';
 
-import type Canvas from '../../game/Canvas';
+import type Canvas from '../../drawing/Canvas';
 
 interface RedoAndUndoProps {
   canvas: Canvas | null;

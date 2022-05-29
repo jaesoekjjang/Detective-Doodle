@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, forwardRef, useRef } from 'react';
-
-import type Canvas from '../../game/Canvas';
-import { cursorRadius } from '../../game/utils';
-import { DrawDataContext } from './DrawDataProvider';
+import { ToolDataContext } from './ToolDataProvider';
 import { ToolTypeContext } from './ToolTypeProvider';
+
+import { cursorRadius } from '../utils';
+import type Canvas from '../drawing/Canvas';
 
 interface DrawingCanvasProps {
   canvas: Canvas | null;
@@ -13,8 +13,8 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(({ canvas }
   const isDrawing = useRef(false);
 
   const { toolType } = useContext(ToolTypeContext);
-  const { drawData: data } = useContext(DrawDataContext);
-  const drawData = useRef(data);
+  const { toolData: data } = useContext(ToolDataContext);
+  const toolData = useRef(data);
 
   useEffect(() => {
     if (!canvas) return;
@@ -22,21 +22,19 @@ const DrawingCanvas = forwardRef<HTMLDivElement, DrawingCanvasProps>(({ canvas }
   }, [toolType]);
 
   useEffect(() => {
-    drawData.current = data;
+    toolData.current = data;
   }, [data]);
 
   useEffect(() => {
     if (!canvas) return;
     canvas.element.addEventListener('mousedown', (e) => {
-      const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-      canvas.onMouseDown({ point, ...drawData.current });
+      canvas.onMouseDown({ point: { x: e.clientX, y: e.clientY }, ...toolData.current });
       isDrawing.current = true;
     });
 
     canvas.element.addEventListener('mousemove', (e) => {
       if (!isDrawing.current) return;
-      const point = canvas.relativePoint({ x: e.clientX, y: e.clientY });
-      canvas.onMouseMove({ point, ...drawData.current });
+      canvas.onMouseMove({ point: { x: e.clientX, y: e.clientY }, ...toolData.current });
     });
 
     canvas.element.addEventListener('mouseup', () => {

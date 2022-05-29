@@ -1,21 +1,21 @@
 import React, { Suspense, lazy } from 'react';
 import { RecoilRoot } from 'recoil';
-import DrawDataProvider from './components/game/DrawDataProvider';
-import ToolTypeProvider from './components/game/ToolTypeProvider';
+import ToolDataContext from './components/ToolDataProvider';
+import ToolTypeProvider from './components/ToolTypeProvider';
 
 import ErrorBoundary from './ErrorBoundary';
 
-const Game = lazy(() => import('./components/game'));
+const Game = lazy(() => import('./components'));
 
 function App() {
   return (
     <RecoilRoot>
       <ToolTypeProvider>
-        <DrawDataProvider>
+        <ToolDataContext>
           <ErrorBoundary>
             <Game />
           </ErrorBoundary>
-        </DrawDataProvider>
+        </ToolDataContext>
       </ToolTypeProvider>
     </RecoilRoot>
   );

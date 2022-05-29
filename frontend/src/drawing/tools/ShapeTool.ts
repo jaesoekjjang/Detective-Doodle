@@ -1,6 +1,6 @@
 import Point from '../models/Point';
 import Tool from '../models/Tool';
-import type { DrawData } from '../models/DrawData';
+import type { ToolData } from '../models/ToolData';
 
 export default class ShapeTool extends Tool {
   protected startPoint: Point;
@@ -10,10 +10,10 @@ export default class ShapeTool extends Tool {
     super(canvas.getContext('2d')!);
   }
 
-  onMouseDown(data: DrawData) {
+  onMouseDown(data: ToolData) {
     this.startPoint = data.point;
     this.image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  onMouseMove(data: DrawData) {}
+  onMouseMove(data: ToolData) {}
 }

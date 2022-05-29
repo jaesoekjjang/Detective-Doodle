@@ -1,10 +1,10 @@
 import Point from '../models/Point';
 import ShapeTool from './ShapeTool';
 
-import type { DrawData } from '../models/DrawData';
+import type { ToolData } from '../models/ToolData';
 
 export default class Rectangle extends ShapeTool {
-  onMouseMove(data: DrawData) {
+  onMouseMove(data: ToolData) {
     const {
       point: { x, y },
       color,

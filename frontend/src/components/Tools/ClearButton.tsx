@@ -1,5 +1,5 @@
 import React from 'react';
-import type Canvas from '../../game/Canvas';
+import type Canvas from '../../drawing/Canvas';
 
 interface ClearButtonProps {
   canvas: Canvas | null;

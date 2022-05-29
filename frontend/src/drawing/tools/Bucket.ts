@@ -1,7 +1,7 @@
 import Tool from '../models/Tool';
 import Point from '../models/Point';
-import { Queue } from './../utils';
-import type { DrawData } from '../models/DrawData';
+import { Queue } from '../../utils';
+import type { ToolData } from '../models/ToolData';
 
 export default class Bucket extends Tool {
   private visited: number[][];
@@ -10,11 +10,11 @@ export default class Bucket extends Tool {
     this.visited = Array.from(Array(this.canvas.width), () => Array(this.canvas.height).fill(0));
   }
 
-  onMouseDown(data: DrawData) {
+  onMouseDown(data: ToolData) {
     this.paint(data.point, data.color);
   }
 
-  onMouseMove(data: DrawData) {
+  onMouseMove(data: ToolData) {
     this.paint(data.point, data.color);
   }
 

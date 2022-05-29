@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import DrawingCanvas from './DrawingCanvas';
-import Canvas from '../../game/Canvas';
 import Tools from './Tools';
-import Palette from './Palette';
+import Palette from './Palette/Palette';
+
+import Canvas from '../drawing/Canvas';
 
 const Game: React.FC = () => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);

@@ -1,9 +1,9 @@
 import Point from './Point';
 
-interface DrawData {
+interface ToolData {
   point: Point;
   color: string;
   width: number;
 }
 
-export type { DrawData };
+export type { ToolData };
