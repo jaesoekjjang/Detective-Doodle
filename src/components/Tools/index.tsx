@@ -39,7 +39,6 @@ const Tools: React.FC<ToolsProps> = ({ canvas }) => {
     [toolType]
   );
 
-  Object.values(tools).map((tool) => console.log(tool));
   return (
     <div className="side">
       {Object.entries(tools).map((tool) => (

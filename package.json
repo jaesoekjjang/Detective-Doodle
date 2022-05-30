@@ -6,24 +6,23 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://jaesoekjjang.github.io/doodler/",
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^14.1.1",
     "@types/jest": "^27.4.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
     "autoprefixer": "^10.4.5",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.5.1",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.12",
     "prettier": "2.6.2",
     "tailwindcss": "^3.0.24",
